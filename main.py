@@ -5,7 +5,6 @@ from flet.icon import Icon
 from flet.icon_button import IconButton
 from flet.popup_menu_button import PopupMenuButton, PopupMenuItem
 from flet.row import Row
-import asyncio
 from UI import page_theme, route_view
 
 
