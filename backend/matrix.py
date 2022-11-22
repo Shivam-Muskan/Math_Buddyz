@@ -12,12 +12,12 @@ def print_matrix(M, rowSize, colSize):
 for i in range(1, num + 1):
     rows = int(input(f"No. of rows for Matrix {i} : "))
     cols = int(input(f"No. of columns in Matrix {i} : "))
-    matrices[i] = [[0 for j in range(cols)] for k in range(rows)]
+    matrices[i] = [[0 for _ in range(cols)] for _ in range(rows)]
     print(matrices[i])
     print(f"Enter the elements of Matrix {i} : ")
     for k in range(rows):
         row = input('Enter a row: ')
-        if len(row.split(sep=',')) == int(cols):
+        if len(row.split(sep=',')) == cols:
             matrices[i][k] = [int(x) for x in row.split(",")]
         else:
             continue
