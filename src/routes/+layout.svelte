@@ -1,9 +1,9 @@
 <script>
 	import '../app.css';
-	import Navbar from '$lib/Navbar.svelte';
+	import Navigation from '../lib/Navigation.svelte';
 </script>
 
 <div class="bg-gray-100">
-	<Navbar />
+	<Navigation />
 	<slot />
 </div>
