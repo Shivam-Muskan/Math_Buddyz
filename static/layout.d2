@@ -1,0 +1,36 @@
+#Developers
+
+github: Github Math Buddyz {
+  shape: image
+  icon: https://icons.terrastruct.com/dev/github.svg
+}
+
+pyDev: Muskan
+fullDev: Shivam
+
+cloud: Cloud {
+    be: Backend {
+        dg: Digital Ocean Droplet {
+                dc: Docker {
+                    Python {
+                       FastAPI <-> Logic
+                    }
+            }
+        }
+    }
+    fe: Frontend {
+        vc: Vercel {
+            app: Sveltekit Application {
+               API -> SSR <-> UI
+            }
+        }
+    }
+}
+
+
+github -> cloud.be.dg.dc: 'Python API'
+pyDev -> github: 'Backend Code (Python/FastAPI)'
+fullDev -> github: 'Frontend Code (Svelte/JS)'
+github -> cloud.fe.vc: 'Sveltekit APP'
+cloud.be.dg.dc.python.FastAPI <-> cloud.fe.vc.app: 'API Infrastructure'
+
