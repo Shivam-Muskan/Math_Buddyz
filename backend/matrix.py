@@ -69,16 +69,31 @@ for i in range(num):
 def matrix_mul(matrix1, matrix2):
     if len(matrix1[0]) == len(matrix2):
         return [[sum(a * b for a, b in zip(X_row, Y_col)) for Y_col in zip(*matrix2)] for X_row in matrix1]
+    print("Multiplication Not possible because of matrix size")
+    return 0
 
-    else:
-        print("Phas gya")
+
+def multiple_matrix_multiplication(matrix: {}) -> str or []:
+    result = matrix_mul(matrix[0], matrix[1])
+    if result == 0:
+        return 'Multiplication Not possible because of matrix size'
+    result_matrices = [result]
+
+    if len(matrix) < 2:
+        return result_matrices
+
+    for n in range(2, len(matrix)):
+        result = matrix_mul(result_matrices[n - 2], matrix[n])
+        if result == 0:
+            return 'Multiplication Not possible because of matrix size'
+        result_matrices.append(result)
+
+    return result_matrices[-1]
 
 
-result = matrix_mul(matrices[0], matrices[1])
-result_matrices = [result]
-for n in range(2, len(matrices)):
-    result = matrix_mul(result_matrices[n-2], matrices[n])
-    result_matrices.append(result)
+final_result = multiple_matrix_multiplication(matrices)
 
-resultant_matrix = result_matrices[-1]
-print("Resultant Matrix", print_matrix(resultant_matrix, len(resultant_matrix), len(resultant_matrix[0])))
+if type(final_result) is str:
+    print(final_result)
+else:
+    print("Resultant Matrix", print_matrix(final_result, len(final_result), len(final_result[0])))
