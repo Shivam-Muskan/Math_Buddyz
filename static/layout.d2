@@ -1,18 +1,17 @@
 #Developers
 
-github: Github Math Buddyz {
-  shape: image
-  icon: https://icons.terrastruct.com/dev/github.svg
-}
-
+github: Github Math Buddyz
+github.shape: cloud
 pyDev: Muskan
+pyDev.shape: cylinder
 fullDev: Shivam
+fullDev.shape: cylinder
 
 cloud: Cloud {
     be: Backend {
         dg: Digital Ocean Droplet {
                 dc: Docker {
-                    Python {
+                    python: Python {
                        FastAPI <-> Logic
                     }
             }
@@ -28,9 +27,20 @@ cloud: Cloud {
 }
 
 
-github -> cloud.be.dg.dc: 'Python API'
-pyDev -> github: 'Backend Code (Python/FastAPI)'
+github -> cloud.be: 'Python API'
+pyDev -> github: Backend Code (Python/FastAPI)
 fullDev -> github: 'Frontend Code (Svelte/JS)'
-github -> cloud.fe.vc: 'Sveltekit APP'
-cloud.be.dg.dc.python.FastAPI <-> cloud.fe.vc.app: 'API Infrastructure'
+github -> cloud.fe: Sveltekit APP
+cloud.be.dg.dc.python.FastAPI <-> cloud.fe.vc.app: API Infrastructure Connection
 
+cloud.fe.shape: hexagon
+cloud.fe.vc.shape: queue
+cloud.fe.vc.app.API.shape: circle
+cloud.fe.vc.app.SSR.shape: package
+cloud.fe.vc.app.UI.shape: page
+
+cloud.be.shape: hexagon
+cloud.be.dg.shape: hexagon
+cloud.be.dg.dc.shape: queue
+cloud.be.dg.dc.python.FastAPI.shape: circle
+cloud.be.dg.dc.python.Logic.shape: circle
