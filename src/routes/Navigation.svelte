@@ -9,7 +9,7 @@
 				>
 					<img class="w-auto h-8" src="logo.svg" alt="Math Buddyz" />
 					<span
-							class="text-xl md:text-2xl font-bold bg-gradient-to-r bg-clip-text text-transparent
+						class="text-xl md:text-2xl font-bold bg-gradient-to-r bg-clip-text text-transparent
             						from-amber-500 via-red-500 to-yellow-500
             						animate-text">Math Buddyz</span
 					>
