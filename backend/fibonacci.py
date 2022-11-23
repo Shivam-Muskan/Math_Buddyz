@@ -3,23 +3,46 @@ import math
 
 # Function for nth fibonacci number :
 def n_th_fibonacci(n):
-    if n < 0:
+    if n <= 0:
         print("Incorrect input")
 
-    elif n == 0:
+    elif n == 1:
         return 0
 
-    elif n == 1 or n == 2:
+    elif n == 2:
         return 1
 
     else:
         return n_th_fibonacci(n - 1) + n_th_fibonacci(n - 2)
 
 
+# Find Fibonacci Series of a number
+def fib_series(n):
+    series = []
+    if n <= 0:
+        print("Incorrect input")
+
+    elif n == 1:
+        series.append(0)
+
+    elif n == 2:
+        series.append(0)
+        series.append(1)
+
+    else:
+        series.append(0)
+        series.append(1)
+        for n in range(3, n+1):
+            num = n_th_fibonacci(n - 1) + n_th_fibonacci(n - 2)
+            series.append(num)
+
+    return series
+
+
 # sum of Fibonacci Numbers
 def calc_sum(n):
     sum = 0
-    for i in range(1, n + 1):
+    for i in range(1, n+1):
         sum = sum + n_th_fibonacci(i)
 
     return sum
@@ -33,18 +56,48 @@ def is_fibonacci(n):
 
     result = is_perfect_square(5 * n * n + 4) or is_perfect_square(5 * n * n - 4)
     if result:
-        print(n, " is a fibonacci number.")
+        print(n, " is a fibonacci number.",'\n')
     else:
-        print(n, " is not a fibonacci number.")
+        print(n, " is not a fibonacci number.",'\n')
 
+    return result
+
+
+# Check if given list of numbers represents Fibonacci series
+'''
+def is_fib_series(l):
+    result = False
+    for num in l:
+        if is_fibonacci(num):
+            result = True
+        else:
+            result = False
+            break
+
+    if result:
+        print("The series is fibonacci.")
+
+    else:
+        print("The series is not fibonacci.")
+'''
 
 num1 = int(input("Input the number : "))
 result1 = n_th_fibonacci(num1)
-print("The nth fibonnaci number = ", result1)
+print("The nth fibonnaci number = ", result1,'\n')
 
 num2 = int(input("Input the number to find the sum  : "))
 result2 = calc_sum(num2)
-print(f"The Sum of {num2} fibonnaci numbers = ", result2)
+print(f"The Sum of {num2} fibonnaci numbers = ", result2,'\n')
 
 num3 = int(input("Input the number to check whether its fibonacci or not : "))
 is_fibonacci(num3)
+
+num4 = int(input("Input the number to find the series  : "))
+result3 = fib_series(num4)
+print(f"The Series of {num4} fibonacci numbers = ", result3,'\n')
+
+'''
+list1 = [int(item) for item in input("Enter the list items : ").split()]
+is_fib_series(list1)
+'''
+
