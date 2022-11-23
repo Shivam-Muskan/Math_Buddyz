@@ -1,5 +1,3 @@
-from os.path import exists
-
 num = int(input("Total no. of matrices: "))
 matrices = {}
 
@@ -10,6 +8,7 @@ def print_matrix(M, rowSize, colSize):
             print(M[row_id][col], end=" ")
         print()
     return 'Done'
+
 
 results = [[]]
 results_row = 0
@@ -44,17 +43,17 @@ for i in range(num):
     total_rows.append(rows)
     total_cols.append(cols)
 
-    matrices[i] = [[0 for j in range(cols)] for k in range(rows)]
+    matrices[i] = [[0 for _ in range(cols)] for _ in range(rows)]
     print(matrices[i])
     print(f"Enter the elements of Matrix {i} : ")
     for k in range(rows):
         row = input('Enter a row: ')
-        if len(row.split(sep=',')) == int(cols):
+        if len(row.split(sep=',')) == cols:
             matrices[i][k] = [int(x) for x in row.split(",")]
         else:
             print("Invalid!")
             row = input('Enter a row: ')
-            if len(row.split(sep=',')) == int(cols):
+            if len(row.split(sep=',')) == cols:
                 matrices[i][k] = [int(x) for x in row.split(",")]
                 break
     print(matrices[i])
@@ -64,24 +63,22 @@ for i in range(num):
 # matrix_multiplication(matrices[0], matrices[1], total_rows[0], total_rows[1], total_cols[0], total_cols[1])
 
 # for n in range(2, num):
-#     matrix_multiplication(results, matrices[n], results_row, total_rows[n], results_col, total_cols[n])
+#     matrix_multiplication(results[n-2], matrices[n], results_row, total_rows[n], results_col, total_cols[n])
 
 
 def matrix_mul(matrix1, matrix2):
     if len(matrix1[0]) == len(matrix2):
-        result = [[sum(a * b for a, b in zip(X_row, Y_col)) for Y_col in zip(*matrix2)] for X_row in matrix1]
-        print("Matrices Before", matrices)
-        matrices[len(matrices)] = result
+        return [[sum(a * b for a, b in zip(X_row, Y_col)) for Y_col in zip(*matrix2)] for X_row in matrix1]
 
-        print("Matrices After", matrices)
     else:
         print("Phas gya")
 
 
-for n in range(0, len(matrices), 2):
-    print("Iteration", n, len(matrices))
-    if n+1 in matrices:
-        matrix_mul(matrices[n], matrices[n+1])
+result = matrix_mul(matrices[0], matrices[1])
+result_matrices = [result]
+for n in range(2, len(matrices)):
+    result = matrix_mul(result_matrices[n-2], matrices[n])
+    result_matrices.append(result)
 
-resultant_matrix = matrices[len(matrices) - 1]
+resultant_matrix = result_matrices[-1]
 print("Resultant Matrix", print_matrix(resultant_matrix, len(resultant_matrix), len(resultant_matrix[0])))
