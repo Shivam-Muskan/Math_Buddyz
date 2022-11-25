@@ -1,6 +1,6 @@
 <script>
 	import '../app.css';
-	import Navigation from './Navigation.svelte';
+	import Navigation from '$lib/Navigation.svelte';
 	import { Toaster } from 'svelte-french-toast';
 </script>
 
