@@ -12,13 +12,11 @@
 			inverse: false
 		}
 	};
-	let MatricesInverse = {
-		A: []
-	};
+	let MatricesInverse: Record<string, []> = {};
 
-	let MatrixTranspose = {};
+	let MatrixTranspose: Record<string, []> = {};
 
-	let matrices: {} = {
+	let matrices: Record<string, unknown> = {
 		A: {
 			name: 'A',
 			rows: 3,
@@ -28,26 +26,17 @@
 				[1, 0, 1, 0, 4],
 				[1, 0, 1, 0, 4],
 				[1, 0, 1, 0, 4]
-			],
-			identity: [],
-			inverse: [],
-			transpose: [
-				[1, 1, 1],
-				[0, 0, 0],
-				[1, 1, 1],
-				[0, 0, 0],
-				[4, 4, 4]
 			]
 		}
 	};
 
 	const newMatrix = async () => {
 		newMatrixAddBtn = true;
-		const ascii = Object.keys(matrices).length + 65;
+		const ascii = 65 + Object.keys(matrices).length;
 		const key = String.fromCharCode(ascii);
 
 		if (matrices.hasOwnProperty(key)) toast.error(`${key} already exists on screen`);
-		else if (ascii < 91) {
+		if (91 > ascii) {
 			matrices[key] = {
 				name: key.toString(),
 				rows: 3,
@@ -57,15 +46,6 @@
 					[1, 0, 1, 0, 4],
 					[1, 0, 1, 0, 4],
 					[1, 0, 1, 0, 4]
-				],
-				identity: [],
-				inverse: [],
-				transpose: [
-					[1, 1, 1],
-					[0, 0, 0],
-					[1, 1, 1],
-					[0, 0, 0],
-					[4, 4, 4]
 				]
 			};
 
@@ -80,7 +60,7 @@
 	};
 
 	const numberOfRows = (event, matrixKey) => {
-		if (event.target.value === '') return;
+		if ('' === event.target.value) return;
 		const matrixDict = matrices[matrixKey];
 		matrixDict.rows = parseInt(event.target.value);
 		if (matrixDict.matrix.length < matrixDict.rows) {
@@ -96,7 +76,7 @@
 	};
 
 	const numberOfColumns = (event, matrixKey) => {
-		if (event.target.value === '') return;
+		if ('' === event.target.value) return;
 		const matrixDict = matrices[matrixKey];
 		let newColumns = parseInt(event.target.value);
 		if (matrixDict.matrix[0].length < newColumns) {
@@ -209,43 +189,37 @@
 					</div>
 					<div class="flex flex-row space-x-2">
 						<span>
-							<form>
-								Rows:
-								<input
-									class="mx-auto my-3 w-7 px-2 rounded text-center"
-									type="number"
-									on:input={numberOfRows(event, matrixKey)}
-									value={matrices[matrixKey].rows}
-								/>
-							</form>
+							Rows:
+							<input
+								class="mx-auto my-3 w-7 px-2 rounded text-center"
+								type="number"
+								on:input={numberOfRows(event, matrixKey)}
+								value={matrices[matrixKey].rows}
+							/>
 						</span>
-						<span
-							><form>
-								Columns:
-								<input
-									class="mx-auto my-3 w-7 px-2 rounded text-center"
-									type="number"
-									on:input={numberOfColumns(event, matrixKey)}
-									value={matrices[matrixKey].columns}
-								/>
-							</form>
+						<span>
+							Columns:
+							<input
+								class="mx-auto my-3 w-7 px-2 rounded text-center"
+								type="number"
+								on:input={numberOfColumns(event, matrixKey)}
+								value={matrices[matrixKey].columns}
+							/>
 						</span>
 					</div>
 					<div class="border-x border-x-gray-900 px-3 rounded-lg">
-						<form>
-							{#each Array(matrices[matrixKey].rows) as _, row}
-								<div class="space-x-1 p-0 mx-0">
-									{#each Array(matrices[matrixKey].columns) as _, column}
-										<input
-											class="mx-auto my-3 w-7 px-2 rounded text-center"
-											type="number"
-											bind:value={matrices[matrixKey].matrix[row][column]}
-											required
-										/>
-									{/each}
-								</div>
-							{/each}
-						</form>
+						{#each Array(matrices[matrixKey].rows) as _, row}
+							<div class="space-x-1 p-0 mx-0">
+								{#each Array(matrices[matrixKey].columns) as _, column}
+									<input
+										class="mx-auto my-3 w-7 px-2 rounded text-center"
+										type="number"
+										bind:value={matrices[matrixKey].matrix[row][column]}
+										required
+									/>
+								{/each}
+							</div>
+						{/each}
 					</div>
 
 					<div class="flex flex-col space-y-3 mt-5 mx-auto">
@@ -386,26 +360,22 @@
 							</div>
 							<div class="flex flex-row space-x-2">
 								<span>
-									<form>
-										Rows:
-										<input
-											class="mx-auto my-3 w-7 px-2 rounded text-center bg-white"
-											type="number"
-											disabled
-											value={MatrixTranspose[matrixKey].length}
-										/>
-									</form>
+									Rows:
+									<input
+										class="mx-auto my-3 w-7 px-2 rounded text-center bg-white"
+										type="number"
+										disabled
+										value={MatrixTranspose[matrixKey].length}
+									/>
 								</span>
-								<span
-									><form>
-										Columns:
-										<input
-											class="mx-auto my-3 w-7 px-2 rounded text-center bg-white"
-											type="number"
-											disabled
-											value={MatrixTranspose[matrixKey][0].length}
-										/>
-									</form>
+								<span>
+									Columns:
+									<input
+										class="mx-auto my-3 w-7 px-2 rounded text-center bg-white"
+										type="number"
+										disabled
+										value={MatrixTranspose[matrixKey][0].length}
+									/>
 								</span>
 							</div>
 							<MatrixView
