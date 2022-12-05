@@ -140,34 +140,7 @@ def matrix_inverse(A):
         return inverse
     else:
         print("Singular matrix. Inverse cannot be found.")
-        return 0
-
-
-
-
-"""
-def matrix_inverse(A):
-    determinant = matrix_det(A)
-    if determinant != 0 :
-        cofactors = []
-        for r in range(len(A)):
-            cofactorRow = []
-            for c in range(len(A)):
-                minor = matrix_minor(A, r, c)
-                cofactorRow.append(((-1) ** (r + c)) * matrix_det(minor))
-            cofactors.append(cofactorRow)
-        cofactors = matrix_transpose(cofactors)
-        for r in range(len(cofactors)):
-            for c in range(len(cofactors)):
-                cofactors[r][c] = cofactors[r][c] / determinant
-
-        print("The inverse Matrix is :\n", cofactors)
-        return cofactors
-    
-    else:
-        print("Singular matrix. Inverse cannot be found.")
-        return 0
-"""
+        return
 
 
 def multiple_matrix_multiply(all_matrices, total_matrices):
