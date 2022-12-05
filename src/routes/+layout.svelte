@@ -1,9 +1,11 @@
 <script>
 	import '../app.css';
-	import Navigation from './Navigation.svelte';
+	import Navigation from '$lib/Components/Navigation.svelte';
+	import { Toaster } from 'svelte-french-toast';
 </script>
 
-<div class="bg-gray-100">
+<div class="bg-gray-100	min-h-screen">
+	<Toaster />
 	<Navigation />
 	<slot />
 </div>
