@@ -140,7 +140,7 @@ def matrix_inverse(A):
         return inverse
     else:
         print("Singular matrix. Inverse cannot be found.")
-        return
+        return 0
 
 
 def multiple_matrix_multiply(all_matrices, total_matrices):
