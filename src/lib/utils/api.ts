@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { baseAPI } from "./constants";
+import { baseAPI } from './constants';
+import { page } from '$app/stores';
 
 const axiosAPI = axios.create({
 	baseURL: baseAPI
@@ -7,6 +8,7 @@ const axiosAPI = axios.create({
 
 const apiRequest = (method: string, url: string, request: any) => {
 	const headers = {
+		'Referrer-Policy': 'no-referrer'
 	};
 	return axiosAPI({
 		method,

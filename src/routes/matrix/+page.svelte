@@ -128,12 +128,12 @@
 	const transpose = async (matrixKey) => {
 		disableBtn[matrixKey].transpose = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_transpose', {matrix: matrices[matrixKey].matrix})
+		const response = await API.post('/matrix_transpose', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
-			return
+			return;
 		}
-		matrixTranspose[matrixKey] = response.result
+		matrixTranspose[matrixKey] = response.result;
 		toast.success('Easier said then done.');
 		disableBtn[matrixKey].transpose = false;
 	};
