@@ -122,11 +122,15 @@ def matrix_inverse(A):
     determinant = matrix_det(A)
 
     if len(A) == 2:
-        inverse = [[A[1][1] / determinant, -1 * A[0][1] / determinant],
-                [-1 * A[1][0] / determinant, A[0][0] / determinant]]
-        print("The inverse Matrix is :\n", inverse)
-        print_matrix(inverse, len(inverse), len(inverse[0]))
-        return inverse
+        if determinant != 0 :
+            inverse = [[A[1][1] / determinant, -1 * A[0][1] / determinant],
+                       [-1 * A[1][0] / determinant, A[0][0] / determinant]]
+            print("The inverse Matrix is :\n", inverse)
+            print_matrix(inverse, len(inverse), len(inverse[0]))
+            return inverse
+        else:
+            print("Singular matrix. Inverse cannot be found.")
+            return 0
 
     inverse = [[0 for _ in range(len(A))] for _ in range(len(A[0]))]
     if determinant != 0 :
