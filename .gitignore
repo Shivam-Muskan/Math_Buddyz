@@ -147,3 +147,4 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vercel
 !src/lib
+vercel.json
