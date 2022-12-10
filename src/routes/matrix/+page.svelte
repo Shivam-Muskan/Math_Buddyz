@@ -3,7 +3,7 @@
 	import toast from 'svelte-french-toast';
 	import { fade, slide } from 'svelte/transition';
 	import MatrixView from '$lib/Components/Matrix/MatrixView.svelte';
-
+	import API from '../../lib/utils/api';
 	let newMatrixAddBtn = false;
 	let disableBtn = {
 		A: {
@@ -128,16 +128,12 @@
 	const transpose = async (matrixKey) => {
 		disableBtn[matrixKey].transpose = true;
 		const currentMatrixDict = matrices[matrixKey];
-		let transposeMatrix = [];
-		for (let c = 0; c < currentMatrixDict.columns; c++) {
-			let newTransposeMatrixRow = [];
-			for (let r = 0; r < currentMatrixDict.rows; r++) {
-				newTransposeMatrixRow.push(currentMatrixDict.matrix[r][c]);
-			}
-			transposeMatrix.push(newTransposeMatrixRow);
-			newTransposeMatrixRow = [];
+		const response = await API.post('/matrix_transpose', {matrix: matrices[matrixKey].matrix})
+		if (response.error) {
+			toast.error(response.message);
+			return
 		}
-		matrixTranspose[matrixKey] = transposeMatrix;
+		matrixTranspose[matrixKey] = response.result
 		toast.success('Easier said then done.');
 		disableBtn[matrixKey].transpose = false;
 	};
