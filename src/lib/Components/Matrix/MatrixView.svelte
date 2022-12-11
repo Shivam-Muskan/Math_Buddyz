@@ -2,15 +2,16 @@
 	export let rows: number;
 	export let columns: number;
 	export let matrix: [];
+	export let bg: string = 'bg-fuchsia-500';
 </script>
 
-<div class="border-x border-x-gray-900 px-3 rounded-lg">
+<div class="rounded-lg border-x border-x-gray-900 px-3">
 	<form>
 		{#each Array(rows) as _, row}
-			<div class="space-x-1 p-0 mx-0">
+			<div class="mx-0 space-x-1 p-0">
 				{#each Array(columns) as _, column}
 					<input
-						class="mx-auto my-3 w-7 px-2 rounded text-center bg-fuchsia-500 text-gray-50"
+						class="my-3 w-16 rounded {bg} px-2 py-1 text-center text-gray-50"
 						type="number"
 						bind:value={matrix[row][column]}
 						disabled
