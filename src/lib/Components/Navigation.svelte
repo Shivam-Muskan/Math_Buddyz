@@ -3,7 +3,7 @@
 		<div class="relative flex items-center justify-between">
 			<div class="flex-shrink-0">
 				<a
-					href="/static"
+					href="/"
 					title=""
 					class="flex items-center space-x-2 rounded outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
 				>
@@ -39,7 +39,7 @@
 				class="hidden lg:absolute lg:inset-y-0 lg:left-1/2 lg:flex lg:-translate-x-1/2 lg:items-center lg:justify-center lg:space-x-12"
 			>
 				<a
-					href="/static"
+					href="/"
 					target="_blank"
 					rel="noreferrer"
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
@@ -57,8 +57,8 @@
 				</a>
 
 				<a
-					data-sveltekit-prefetch
-					href="/static"
+					data-sveltekit-preload-data="hover"
+					href="/"
 					title=""
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
 				>

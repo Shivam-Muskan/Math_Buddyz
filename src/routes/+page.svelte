@@ -64,7 +64,7 @@
 			class="mx-auto mt-12 grid max-w-md grid-cols-1 gap-y-12 gap-x-8 sm:mt-16 md:max-w-none md:grid-cols-3"
 		>
 			{#each all_calculators as calculator}
-				<a data-sveltekit-prefetch href={calculator.route}>
+				<a data-sveltekit-preload-data="hover" href={calculator.route}>
 					<div class="group flex flex-col">
 						<a
 							href={calculator.route}
