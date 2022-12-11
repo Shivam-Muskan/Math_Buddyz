@@ -5,6 +5,7 @@ from fastapi import FastAPI, APIRouter
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.fibonacci import n_th_fibonacci, calc_sum, is_fibonacci, is_fib_series
 from backend.matrix import matrix_transpose, multiple_matrix_multiply, multiple_matrix_addition, matrix_det, \
     matrix_inverse, matrix_adjoint
 
@@ -153,6 +154,57 @@ async def matrix_adjoint_api(MatrixDict: dict):
             "result": matrix_adjoint(MatrixDict["matrix"])
         }
     return {"error": True, "message": "Invalid Matrix"}
+
+
+@app.post("/n_th_fibonacci/")
+async def n_th_fibonacci_api(num: int):
+    result = n_th_fibonacci(num)
+
+    if result is not None:
+        return {
+            "result": result
+        }
+    return {"error": True, "message": "Invalid input."}
+
+
+@app.post("/calculate_sum/")
+async def calc_sum_api(num: int):
+    if num >= 0 :
+        return {
+                "result": calc_sum(num)
+            }
+    return {"error": True, "message": "Invalid input."}
+
+
+@app.post("/is_fibonacci_number/")
+async def is_fibonacci_api(num: int):
+    return {
+        "message": "Number is Fibonacci.",
+        "result": is_fibonacci(num)
+    }
+
+
+@app.post("/is_fibonacci_series/")
+async def is_fib_series_api(list: list):
+    result = is_fib_series(list)
+
+    if result is not None:
+        return {
+            "message": "Series is Fibonacci.",
+            "result": result
+        }
+    return {"error": True, "message": "Cannot be determined. At least 3 elements required."}
+
+
+@app.post("/fibonacci_series/")
+async def fib_series(num: int):
+    result = fib_series(num)
+
+    if result is not None:
+        return {
+            "result": result
+        }
+    return {"error": True, "message": "Invalid input."}
 
 
 if __name__ == "__main__":
