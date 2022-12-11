@@ -134,8 +134,8 @@ def matrix_inverse(matrix):
         return None, None, "Singular matrix. Inverse cannot be found."
 
     if len(matrix) == 2:
-        inverse = [[matrix[1][1] / determinant, -1 * matrix[0][1] / determinant],
-                   [-1 * matrix[1][0] / determinant, matrix[0][0] / determinant]]
+        inverse = [[round(matrix[1][1] / determinant, 2), round(-1 * matrix[0][1] / determinant, 2)],
+                   [round(-1 * matrix[1][0] / determinant, 2), round(matrix[0][0] / determinant,2)]]
         print("The inverse Matrix is :\n", inverse)
         print_matrix(inverse, len(inverse), len(inverse[0]))
         return inverse, determinant, None
@@ -145,7 +145,7 @@ def matrix_inverse(matrix):
         adjoint = matrix_adjoint(matrix)
         for r in range(len(adjoint)):
             for c in range(len(adjoint)):
-                inverse[r][c] = adjoint[r][c] / determinant
+                inverse[r][c] = round(adjoint[r][c] / determinant, 2)
 
         print("The inverse Matrix is :\n", inverse)
         print_matrix(inverse, len(inverse), len(inverse[0]))

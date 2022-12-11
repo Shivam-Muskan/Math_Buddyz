@@ -5,7 +5,7 @@ from fastapi import FastAPI, APIRouter
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.fibonacci import n_th_fibonacci, calc_sum, is_fibonacci, is_fib_series
+from backend.fibonacci import n_th_fibonacci, calc_sum, is_fibonacci, is_fib_series, fib_series
 from backend.matrix import matrix_transpose, multiple_matrix_multiply, multiple_matrix_addition, matrix_det, \
     matrix_inverse, matrix_adjoint
 
@@ -169,7 +169,7 @@ async def n_th_fibonacci_api(num: int):
 
 @app.post("/calculate_sum/")
 async def calc_sum_api(num: int):
-    if num >= 0 :
+    if num >= 0:
         return {
                 "result": calc_sum(num)
             }
@@ -197,7 +197,7 @@ async def is_fib_series_api(list: list):
 
 
 @app.post("/fibonacci_series/")
-async def fib_series(num: int):
+async def fib_series_api(num: int):
     result = fib_series(num)
 
     if result is not None:
