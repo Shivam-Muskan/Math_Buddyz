@@ -31,10 +31,10 @@ def initialize():
     return all_matrices, no_of_matrices
 
 
-def print_matrix(M, rowSize, colSize):
+def print_matrix(matrix, rowSize, colSize):
     for row_id in range(rowSize):
         for col in range(colSize):
-            print(M[row_id][col], end=" ")
+            print(matrix[row_id][col], end=" ")
         print()
 
 
@@ -65,44 +65,43 @@ def matrix_add(matrix_1, matrix_2):
     return None
 
 
-def matrix_minor(A, i, j):
-    return [row[:j] + row[j+1:] for row in (A[:i]+A[i+1:])]
+def matrix_minor(matrix, i, j):
+    return [row[:j] + row[j+1:] for row in (matrix[:i] + matrix[i + 1:])]
 
 
-def matrix_det(A):
-    if len(A) == len(A[0]):
-        if len(A) == 2:
-            determinant = A[0][0] * A[1][1] - A[0][1] * A[1][0]
+def matrix_det(matrix):
+    if len(matrix) == len(matrix[0]):
+        if len(matrix) == 2:
+            determinant = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
             return determinant
 
         determinant = 0
-        for c in range(len(A)):
-            determinant += ((-1) ** c) * A[0][c] * matrix_det(matrix_minor(A, 0, c))
+        for c in range(len(matrix)):
+            determinant += ((-1) ** c) * matrix[0][c] * matrix_det(matrix_minor(matrix, 0, c))
 
         return determinant
 
-    else:
-        print("Not a square matrix. Determinant cannot be determined.")
-        return 0
+    print("Not a square matrix. Determinant cannot be determined.")
+    return None
 
 
-def matrix_transpose(A):
-    result = [[0 for _ in range(len(A))] for _ in range(len(A[0]))]
-    for i in range(len(A[0])):
-        for j in range(len(A)):
-            result[i][j] = A[j][i]
+def matrix_transpose(matrix):
+    result = [[0 for _ in range(len(matrix))] for _ in range(len(matrix[0]))]
+    for i in range(len(matrix[0])):
+        for j in range(len(matrix)):
+            result[i][j] = matrix[j][i]
 
     print("The transpose of matrix is : ", result)
     print_matrix(result, len(result), len(result[0]))
     return result
 
 
-def matrix_cofactor(A):
+def matrix_cofactor(matrix):
     cofactors = []
-    for r in range(len(A)):
+    for r in range(len(matrix)):
         cofactorRow = []
-        for c in range(len(A)):
-            minor = matrix_minor(A, r, c)
+        for c in range(len(matrix)):
+            minor = matrix_minor(matrix, r, c)
             cofactorRow.append(((-1) ** (r + c)) * matrix_det(minor))
         cofactors.append(cofactorRow)
 
@@ -111,42 +110,49 @@ def matrix_cofactor(A):
     return cofactors
 
 
-def matrix_adjoint(A):
-    cofactors = matrix_cofactor(A)
+def matrix_adjoint(matrix):
+    if len(matrix) == 2:
+        adjoint = [[matrix[1][1] , -1 * matrix[0][1]],
+                   [-1 * matrix[1][0] , matrix[0][0]]]
+        print("The adjoint of Matrix is :\n", adjoint)
+        return adjoint
+
+    cofactors = matrix_cofactor(matrix)
     adjoint = matrix_transpose(cofactors)
     return adjoint
 
 
-def matrix_inverse(mat):
-    determinant = matrix_det(mat)
-    if len(mat) != len(mat[0]):
+def matrix_inverse(matrix):
+    if len(matrix) != len(matrix[0]):
         print("Not a square matrix. Inverse cannot be found.")
-        return 0
+        return None, None, "Not a square matrix. Inverse cannot be found."
+
+    determinant = matrix_det(matrix)
 
     if determinant == 0:
         print("Singular matrix. Inverse cannot be found.")
-        return 0
+        return None, None, "Singular matrix. Inverse cannot be found."
 
-    if len(mat) == 2:
-        inverse = [[mat[1][1] / determinant, -1 * mat[0][1] / determinant],
-                   [-1 * mat[1][0] / determinant, mat[0][0] / determinant]]
+    if len(matrix) == 2:
+        inverse = [[matrix[1][1] / determinant, -1 * matrix[0][1] / determinant],
+                   [-1 * matrix[1][0] / determinant, matrix[0][0] / determinant]]
         print("The inverse Matrix is :\n", inverse)
         print_matrix(inverse, len(inverse), len(inverse[0]))
-        return inverse
+        return inverse, determinant, None
 
-    inverse = [[0 for _ in range(len(mat))] for _ in range(len(mat[0]))]
     if determinant != 0:
-        adjoint = matrix_adjoint(mat)
+        inverse = [[0 for _ in range(len(matrix))] for _ in range(len(matrix[0]))]
+        adjoint = matrix_adjoint(matrix)
         for r in range(len(adjoint)):
             for c in range(len(adjoint)):
                 inverse[r][c] = adjoint[r][c] / determinant
 
         print("The inverse Matrix is :\n", inverse)
         print_matrix(inverse, len(inverse), len(inverse[0]))
-        return inverse
-    else:
-        print("Inverse cannot be found.")
-        return 0
+        return inverse, determinant, None
+
+    print("Inverse cannot be found.")
+    return None, None, "Inverse cannot be found."
 
 
 def multiple_matrix_multiply(all_matrices, total_matrices):
