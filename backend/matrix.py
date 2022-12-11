@@ -38,32 +38,31 @@ def print_matrix(M, rowSize, colSize):
         print()
 
 
-def matrix_multiplication(A, B):
-    result = [[0 for _ in range(len(B[0]))] for _ in range(len(A))]
-    if len(A[0]) == len(B):
-        for i in range(len(A)):
-            for j in range(len(B[0])):
-                for k in range(len(B)):
-                    result[i][j] += A[i][k] * B[k][j]
-    else:
-        print("Multiplication Not possible because of invalid matrix size.")
+def matrix_multiplication(matrix_1, matrix_2):
+    if len(matrix_1[0]) == len(matrix_2):
+        result = [[0 for _ in range(len(matrix_2[0]))] for _ in range(len(matrix_1))]
+        for i in range(len(matrix_1)):
+            for j in range(len(matrix_2[0])):
+                for k in range(len(matrix_2)):
+                    result[i][j] += matrix_1[i][k] * matrix_2[k][j]
+        print("The resultant Matrix after Multiplication : ", result)
+        return result
 
-    print("The resultant Matrix after Multiplication : ", result)
-    return result
+    print("Multiplication Not possible because of invalid matrix size.")
+    return None
 
 
-def matrix_add(A, B):
-    result = [[0 for _ in range(len(B[0]))] for _ in range(len(A))]
-    if len(A) == len(B) and len(A[0]) == len(B[0]):
-        for i in range(len(A)):
-            for j in range(len(A[0])):
-                result[i][j] += A[i][j] + B[i][j]
+def matrix_add(matrix_1, matrix_2):
+    if len(matrix_1) == len(matrix_2) == len(matrix_1[0]) == len(matrix_2[0]):
+        result = [[0 for _ in range(len(matrix_2[0]))] for _ in range(len(matrix_1))]
+        for i in range(len(matrix_1)):
+            for j in range(len(matrix_1[0])):
+                result[i][j] += matrix_1[i][j] + matrix_2[i][j]
         print("The resultant Matrix after Addition : ", result)
+        return result
 
-    else:
-        print("Addition Not possible because of invalid matrix size.")
-
-    return result
+    print("Addition Not possible because of invalid matrix size.")
+    return None
 
 
 def matrix_minor(A, i, j):
@@ -152,20 +151,30 @@ def matrix_inverse(mat):
 
 def multiple_matrix_multiply(all_matrices, total_matrices):
     resultant = matrix_multiplication(all_matrices[0], all_matrices[1])
+    if resultant is None:
+        return None
+
     matrix_result = [resultant]
     if total_matrices > 2:
         for matrix_index in range(2, total_matrices):
             resultant = matrix_multiplication(matrix_result[matrix_index - 2], all_matrices[matrix_index])
+            if resultant is None:
+                return None
             matrix_result.append(resultant)
     return matrix_result[-1]
 
 
 def multiple_matrix_addition(all_matrices, total_matrices):
     addition_resultant = matrix_add(all_matrices[0], all_matrices[1])
+    if addition_resultant is None:
+        return None
+
     matrix_result1 = [addition_resultant]
     if total_matrices > 2:
         for matrix_index in range(2, total_matrices):
             resultant = matrix_add(matrix_result1[matrix_index - 2], all_matrices[matrix_index])
+            if resultant is None:
+                return None
             matrix_result1.append(resultant)
     return matrix_result1[- 1]
 
