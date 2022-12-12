@@ -13,5 +13,10 @@ export const sleep = async (ms: number) => {
 export const extractNumbersAndAlphabet = async (currentString: string) => {
 	const numbers = currentString.match(/\d+/g);
 	const alphabet = currentString.match(/[a-zA-Z]/g);
-	return { numbers, alphabet }
+	return { numbers, alphabet };
+};
+
+export const Symbols = {
+	addition: '+',
+	multiplication: '*'
 }

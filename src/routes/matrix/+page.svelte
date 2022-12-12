@@ -5,8 +5,8 @@
 	import MatrixView from '$lib/Components/Matrix/MatrixView.svelte';
 	import API from '$lib/utils/api';
 	import Drawer from '$lib/Components/Matrix/Drawer.svelte';
-	import { extractNumbersAndAlphabet, scrollToBottom, sleep } from "$lib/utils/jsHandlers";
-	import { Icons } from "$lib/utils/icons";
+	import { extractNumbersAndAlphabet, scrollToBottom, sleep, Symbols } from '$lib/utils/jsHandlers';
+	import { Icons } from '$lib/utils/icons';
 
 	let newMatrixAddBtn: boolean = false;
 	let disableBtn: Record<string, unknown> = {};
@@ -27,7 +27,7 @@
 			error: null,
 			answer: []
 		}
-	}
+	};
 
 	let matrices: Record<string, unknown> = {
 		A: 'empty',
@@ -197,43 +197,45 @@
 
 	const handleCalculations = async (calculatorKey) => {
 		advancedCalculator[calculatorKey].disabled = true;
-		const currentWorkingMatrices = advancedCalculator[calculatorKey].inputValue.split(",")
+		const currentWorkingMatrices = advancedCalculator[calculatorKey].inputValue.split(',');
 		if (currentWorkingMatrices.length < 2) {
-			toast.error(`Please provide two or more matrices`)
-			advancedCalculator[calculatorKey].error = `You have to provide at least two matrices for ${calculatorKey}`
+			toast.error(`Please provide two or more matrices`);
+			advancedCalculator[
+				calculatorKey
+			].error = `You have to provide at least two matrices for ${calculatorKey}`;
 			advancedCalculator[calculatorKey].disabled = false;
 			return;
 		}
-		let finalMatricesData: Record<string, number> = {}
-		let finalMatrixCollection = []
+		let finalMatricesData: Record<string, number> = {};
+		let finalMatrixCollection = [];
 		for (const matricesKeyData of currentWorkingMatrices) {
-			let { numbers, alphabet } = await extractNumbersAndAlphabet(matricesKeyData)
-			if ( alphabet === null ) {
-				toast.error(`Given matrix ${matricesKeyData} is not valid`)
-				advancedCalculator[calculatorKey].error = `You have to provide matrix names to without that ${calculatorKey} is not going to take place.`
+			let { numbers, alphabet } = await extractNumbersAndAlphabet(matricesKeyData);
+			if (alphabet === null) {
+				toast.error(`Given matrix ${matricesKeyData} is not valid`);
+				advancedCalculator[
+					calculatorKey
+				].error = `You have to provide matrix names to without that ${calculatorKey} is not going to take place.`;
 				advancedCalculator[calculatorKey].disabled = false;
 				return;
-			} if (numbers === null) {
-				numbers = <RegExpMatchArray>['1']
 			}
-			const key = alphabet.join("")
-			const multiplier = parseInt(numbers.join(""))
-			if (!matrices.hasOwnProperty(key) ||  matrices[key] === 'empty') {
-				toast.error(`Given matrix ${key} doesn't exist`)
-				advancedCalculator[calculatorKey].error = "Please provide a existing matrix from the panel where you have all the matrices."
-					advancedCalculator[calculatorKey].disabled = false;
+			if (numbers === null) {
+				numbers = <RegExpMatchArray>['1'];
+			}
+			const key = alphabet.join('');
+			const multiplier = parseInt(numbers.join(''));
+			if (!matrices.hasOwnProperty(key) || matrices[key] === 'empty') {
+				toast.error(`Given matrix ${key} doesn't exist`);
+				advancedCalculator[calculatorKey].error =
+					'Please provide a existing matrix from the panel where you have all the matrices.';
+				advancedCalculator[calculatorKey].disabled = false;
 				return;
 			}
-			const currentMatrix = matrices[key].matrix
+			const currentMatrix = matrices[key].matrix;
 			if (multiplier === 1) {
-				finalMatrixCollection.push(currentMatrix)
+				finalMatrixCollection.push(currentMatrix);
 			} else {
-				const scalarProductMatrix = currentMatrix.map(
-					row => row.map(
-						col => col * multiplier
-					)
-				)
-				finalMatrixCollection.push(scalarProductMatrix)
+				const scalarProductMatrix = currentMatrix.map((row) => row.map((col) => col * multiplier));
+				finalMatrixCollection.push(scalarProductMatrix);
 			}
 		}
 
@@ -241,14 +243,14 @@
 		if (response.error) {
 			toast.error(response.message);
 			advancedCalculator[calculatorKey].disabled = false;
-			advancedCalculator[calculatorKey].error = response.message
+			advancedCalculator[calculatorKey].error = response.message;
 			return;
 		}
 		advancedCalculator[calculatorKey].answer = response.result;
 		advancedCalculator[calculatorKey].disabled = false;
 		toast.success('Easier said then done. You got the answer');
-		advancedCalculator[calculatorKey].error = null
-	}
+		advancedCalculator[calculatorKey].error = null;
+	};
 
 	let isOpen = false;
 	const handleToggle = () => {
@@ -763,76 +765,81 @@
 		</svg> Close
 	</button>
 
-	<div class="mx-auto max-w-7xl px-4 space-y-4 sm:px-6 lg:px-8">
+	<div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
 		{#each Object.keys(advancedCalculator) as calculator}
-		<div class="mx-auto max-w-xl">
-			<div>
-				<label for="additionText" class="capitalize text-sm font-medium text-gray-900">Multiple Matrix {calculator}</label>
-				<div class="relative">
-					<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-						{@html Icons[calculator]}
-<!--						<svg-->
-<!--							xmlns="http://www.w3.org/2000/svg"-->
-<!--							fill="none"-->
-<!--							viewBox="0 0 24 24"-->
-<!--							stroke-width="1.5"-->
-<!--							stroke="currentColor"-->
-<!--							class="h-5 w-5 text-gray-500 rotate-90"-->
-<!--						>-->
-<!--							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />-->
-<!--						</svg>-->
-					</div>
-					<input
-						type="text"
-						id="additionText"
-						bind:value={advancedCalculator[calculator].inputValue}
-						class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-						placeholder="Provide matrix name with comma e.g. A, B, C"
-						required
-					/>
-					<button
-						type="submit"
-						on:click={handleCalculations(calculator)}
-						disabled="{advancedCalculator[calculator].disabled}"
-						class="absolute right-2.5 bottom-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-						>Calculate</button
+			<div class="mx-auto max-w-xl">
+				<div>
+					<label for="additionText" class="text-sm font-medium capitalize text-gray-900"
+						>Multiple Matrix {calculator}</label
 					>
-				</div>
-				{#if advancedCalculator[calculator].error}
-					<p class="mt-1 text-sm font-medium text-red-500">{advancedCalculator[calculator].error}</p>
-				{/if}
-				{#if advancedCalculator[calculator].answer.length > 0}
-					<div
-						id="New-{calculator}"
-						class="flex flex-col items-center justify-center mt-4 "
-						transition:fade
-					>
-						<div class="flex inline-flex flex-row items-center justify-center space-x-10">
-								<span class="mb-1 text-xl font-bold capitalize">
-									{calculator} {advancedCalculator[calculator].inputValue}
-								</span>
-<!--							<button-->
-<!--								type="button"-->
-<!--								class="group inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"-->
-<!--							>-->
-<!--								<svg-->
-<!--									xmlns="http://www.w3.org/2000/svg"-->
-<!--									fill="none"-->
-<!--									viewBox="0 0 24 24"-->
-<!--									stroke-width="1.5"-->
-<!--									stroke="currentColor"-->
-<!--									class="mr-2 h-5 w-5"-->
-<!--								>-->
-<!--									<path-->
-<!--										stroke-linecap="round"-->
-<!--										stroke-linejoin="round"-->
-<!--										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"-->
-<!--									/>-->
-<!--								</svg>-->
-<!--								&lt;!&ndash;{matrices[matrixKey].name}&ndash;&gt;-->
-<!--							</button>-->
+					<div class="relative">
+						<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+							{@html Icons[calculator]}
+							<!--						<svg-->
+							<!--							xmlns="http://www.w3.org/2000/svg"-->
+							<!--							fill="none"-->
+							<!--							viewBox="0 0 24 24"-->
+							<!--							stroke-width="1.5"-->
+							<!--							stroke="currentColor"-->
+							<!--							class="h-5 w-5 text-gray-500 rotate-90"-->
+							<!--						>-->
+							<!--							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />-->
+							<!--						</svg>-->
 						</div>
-						<div class="flex flex-row space-x-2">
+						<input
+							type="text"
+							id="additionText"
+							bind:value={advancedCalculator[calculator].inputValue}
+							class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+							placeholder="Provide matrix name with comma e.g. A, B, C"
+							required
+						/>
+						<button
+							type="submit"
+							on:click={handleCalculations(calculator)}
+							disabled={advancedCalculator[calculator].disabled}
+							class="absolute right-2.5 bottom-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+							>Calculate</button
+						>
+					</div>
+					{#if advancedCalculator[calculator].error}
+						<p class="mt-1 text-sm font-medium text-red-500">
+							{advancedCalculator[calculator].error}
+						</p>
+					{/if}
+					{#if advancedCalculator[calculator].answer.length > 0}
+						<div
+							id="New-{calculator}"
+							class="mt-4 flex flex-col items-center justify-center "
+							transition:fade
+						>
+							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
+								<span class="mb-1 text-xl font-bold capitalize">
+									{calculator}
+									{(advancedCalculator[calculator].inputValue).replace(/,/g, Symbols[calculator])}
+								</span>
+								<!--							<button-->
+								<!--								type="button"-->
+								<!--								class="group inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"-->
+								<!--							>-->
+								<!--								<svg-->
+								<!--									xmlns="http://www.w3.org/2000/svg"-->
+								<!--									fill="none"-->
+								<!--									viewBox="0 0 24 24"-->
+								<!--									stroke-width="1.5"-->
+								<!--									stroke="currentColor"-->
+								<!--									class="mr-2 h-5 w-5"-->
+								<!--								>-->
+								<!--									<path-->
+								<!--										stroke-linecap="round"-->
+								<!--										stroke-linejoin="round"-->
+								<!--										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"-->
+								<!--									/>-->
+								<!--								</svg>-->
+								<!--								&lt;!&ndash;{matrices[matrixKey].name}&ndash;&gt;-->
+								<!--							</button>-->
+							</div>
+							<div class="flex flex-row space-x-2">
 								<span>
 									Rows:
 									<input
@@ -842,7 +849,7 @@
 										value={advancedCalculator[calculator].answer.length}
 									/>
 								</span>
-							<span>
+								<span>
 									Columns:
 									<input
 										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
@@ -851,30 +858,40 @@
 										value={advancedCalculator[calculator].answer[0].length}
 									/>
 								</span>
+							</div>
+							<MatrixView
+								rows={advancedCalculator[calculator].answer.length}
+								columns={advancedCalculator[calculator].answer[0].length}
+								matrix={advancedCalculator[calculator].answer}
+								bg="bg-blue-500"
+							/>
 						</div>
-						<MatrixView
-							rows={advancedCalculator[calculator].answer.length}
-							columns={advancedCalculator[calculator].answer[0].length}
-							matrix={advancedCalculator[calculator].answer}
-							bg="bg-blue-500"
-						/>
-					</div>
 					{/if}
+				</div>
 			</div>
-		</div>
-			{/each}
+		{/each}
 	</div>
-
 </Drawer>
 
 <div class="flex">
 	<div
 		on:click={handleToggle}
-		class="group flex flex-row items-center space-x-2 justify-center fixed bottom-10 right-5 inline-block rounded-full bg-indigo-600 p-3 font-medium uppercase leading-tight text-white shadow-md transition transition duration-75 duration-150 ease-in-out ease-in-out hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg md:right-32"
+		class="group fixed bottom-10 right-5 inline-block flex flex-row items-center justify-center space-x-2 rounded-full bg-indigo-600 p-3 font-medium uppercase leading-tight text-white shadow-md transition transition duration-75 duration-150 ease-in-out ease-in-out hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg md:right-32"
 	>
-		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
-			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" />
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			stroke="currentColor"
+			class="h-6 w-6"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"
+			/>
 		</svg>
-		<span class="cursor-default text"> Advance Matrix Calculator </span>
+		<span class="text cursor-default"> Advance Matrix Calculator </span>
 	</div>
 </div>
