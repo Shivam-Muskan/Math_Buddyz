@@ -5,7 +5,13 @@
 	import MatrixView from '$lib/Components/Matrix/MatrixView.svelte';
 	import API from '$lib/utils/api';
 	import Drawer from '$lib/Components/Matrix/Drawer.svelte';
-	import { extractNumbersAndAlphabet, scrollToBottom, sleep, Symbols } from '$lib/utils/jsHandlers';
+	import {
+		extractNumbersAndAlphabet,
+		removeKey,
+		scrollToBottom,
+		sleep,
+		Symbols
+	} from '$lib/utils/jsHandlers';
 	import { Icons } from '$lib/utils/icons';
 
 	let newMatrixAddBtn: boolean = false;
@@ -128,7 +134,12 @@
 			const { [matrixKey.toString()]: deleteAble, ...newMatricesInverse } = matrixInverse;
 			matrixTranspose = newMatricesInverse;
 		}
-
+		if (matrixAdjoint.hasOwnProperty(matrixKey))
+			matrixAdjoint = removeKey(matrixKey, matrixAdjoint);
+		if (matrixInverse.hasOwnProperty(matrixKey))
+			matrixInverse = removeKey(matrixKey, matrixInverse);
+		if (matrixTranspose.hasOwnProperty(matrixKey))
+			matrixTranspose = removeKey(matrixKey, matrixTranspose);
 		matrices[matrixKey] = 'empty';
 	};
 
@@ -191,7 +202,7 @@
 		matrices[matrixKey].determinant = response.determinant;
 		matrixInverse[matrixKey] = response.result;
 		toast.success('Easier said then done. You got the Inverse');
-		// await sleep(100).then(() => scrollToBottom(`Inverse-${matrixKey}`));
+		await sleep(100).then(() => scrollToBottom(`Inverse-${matrixKey}`));
 		disableBtn[matrixKey].inverse = false;
 	};
 
@@ -555,7 +566,7 @@
 	</section>
 {/if}
 
-{#if Object.keys(matrixAdjoint).length}
+{#if Object.keys(matrixAdjoint).length > 0}
 	<section id="matrixAdjointViewer" class="py-5">
 		<div class="grid grid-cols-3" transition:fade>
 			<div
@@ -651,7 +662,7 @@
 	</section>
 {/if}
 
-{#if Object.keys(matrixInverse).length}
+{#if Object.keys(matrixInverse).length > 0}
 	<section id="matrixInverseViewer" class="py-5">
 		<div class="grid grid-cols-3" transition:fade>
 			<div
@@ -775,16 +786,6 @@
 					<div class="relative">
 						<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 							{@html Icons[calculator]}
-							<!--						<svg-->
-							<!--							xmlns="http://www.w3.org/2000/svg"-->
-							<!--							fill="none"-->
-							<!--							viewBox="0 0 24 24"-->
-							<!--							stroke-width="1.5"-->
-							<!--							stroke="currentColor"-->
-							<!--							class="h-5 w-5 text-gray-500 rotate-90"-->
-							<!--						>-->
-							<!--							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />-->
-							<!--						</svg>-->
 						</div>
 						<input
 							type="text"
@@ -811,33 +812,13 @@
 						<div
 							id="New-{calculator}"
 							class="mt-4 flex flex-col items-center justify-center "
-							transition:fade
+							transition:slide
 						>
 							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
 								<span class="mb-1 text-xl font-bold capitalize">
 									{calculator}
-									{(advancedCalculator[calculator].inputValue).replace(/,/g, Symbols[calculator])}
+									{advancedCalculator[calculator].inputValue.replace(/,/g, Symbols[calculator])}
 								</span>
-								<!--							<button-->
-								<!--								type="button"-->
-								<!--								class="group inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"-->
-								<!--							>-->
-								<!--								<svg-->
-								<!--									xmlns="http://www.w3.org/2000/svg"-->
-								<!--									fill="none"-->
-								<!--									viewBox="0 0 24 24"-->
-								<!--									stroke-width="1.5"-->
-								<!--									stroke="currentColor"-->
-								<!--									class="mr-2 h-5 w-5"-->
-								<!--								>-->
-								<!--									<path-->
-								<!--										stroke-linecap="round"-->
-								<!--										stroke-linejoin="round"-->
-								<!--										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"-->
-								<!--									/>-->
-								<!--								</svg>-->
-								<!--								&lt;!&ndash;{matrices[matrixKey].name}&ndash;&gt;-->
-								<!--							</button>-->
 							</div>
 							<div class="flex flex-row space-x-2">
 								<span>

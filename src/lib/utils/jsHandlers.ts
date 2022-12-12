@@ -16,7 +16,9 @@ export const extractNumbersAndAlphabet = async (currentString: string) => {
 	return { numbers, alphabet };
 };
 
+export const removeKey = (key: string, { [key]: _, ...rest }) => rest;
+
 export const Symbols = {
 	addition: '+',
 	multiplication: '*'
-}
+};
