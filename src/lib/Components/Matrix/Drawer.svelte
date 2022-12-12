@@ -1,7 +1,6 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 	import { onMount } from 'svelte';
-  import { fade } from 'svelte/transition';
 
 	const dispatch = createEventDispatcher();
 	export let isOpen = false;
@@ -34,13 +33,14 @@
 <aside>
 	<div class="fixed inset-0 z-50 h-full w-full overflow-hidden {isOpen ? 'visible' : 'invisible'}">
 		<div
-			class="h-full w-screen cursor-pointer overflow-hidden bg-gray-500 transition-opacity duration-500  {isOpen
+			class="h-full w-screen cursor-pointer overflow-hidden bg-gray-500 transition-opacity duration-500 {isOpen
 				? 'opacity-50'
 				: 'opacity-0'}"
 			on:click={handleClickAway}
+			role="presentation"
 		/>
 		<div
-			class="absolute {placement} top-0 h-full overflow-y-auto bg-white shadow-xl transition-all duration-500 ease-in-out {maxScreenSize} {isOpen
+			class="absolute {placement} top-0 h-full overflow-y-auto rounded rounded-tl-lg bg-white shadow-xl transition-all duration-500 ease-in-out {maxScreenSize} {isOpen
 				? 'w-screen'
 				: 'w-0'}"
 		>

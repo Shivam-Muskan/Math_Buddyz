@@ -5,18 +5,29 @@
 	import MatrixView from '$lib/Components/Matrix/MatrixView.svelte';
 	import API from '$lib/utils/api';
 	import Drawer from '$lib/Components/Matrix/Drawer.svelte';
+	import { extractNumbersAndAlphabet, scrollToBottom, sleep } from "$lib/utils/jsHandlers";
+	import { Icons } from "$lib/utils/icons";
 
-	let newMatrixAddBtn = false;
-	let disableBtn = {
-		A: {
-			transpose: false,
-			determinant: false,
-			inverse: false
-		}
-	};
+	let newMatrixAddBtn: boolean = false;
+	let disableBtn: Record<string, unknown> = {};
+
 	let matrixInverse: Record<string, []> = {};
-
 	let matrixTranspose: Record<string, []> = {};
+	let matrixAdjoint: Record<string, []> = {};
+	let advancedCalculator: Record<string, unknown> = {
+		addition: {
+			inputValue: '',
+			disabled: false,
+			error: null,
+			answer: []
+		},
+		multiplication: {
+			inputValue: '',
+			disabled: false,
+			error: null,
+			answer: []
+		}
+	}
 
 	let matrices: Record<string, unknown> = {
 		A: 'empty',
@@ -65,6 +76,7 @@
 			disableBtn[keyWithValue] = {
 				transpose: false,
 				determinant: false,
+				adjoint: false,
 				inverse: false
 			};
 		} else toast.error("You can't add more matrix");
@@ -131,7 +143,9 @@
 		}
 		currentMatrixDict.determinant = response.result;
 		matrices[matrixKey] = currentMatrixDict;
-		toast.success(`Easier said then done. It's really a joke for computer to find this kind of thing`);
+		toast.success(
+			`Easier said then done. It's really a joke for computer to find this kind of thing`
+		);
 		disableBtn[matrixKey].determinant = false;
 	};
 
@@ -147,6 +161,22 @@
 		matrixTranspose[matrixKey] = response.result;
 		toast.success('Easier said then done. Look at you doing maths with headache.');
 		disableBtn[matrixKey].transpose = false;
+		await sleep(100).then(() => scrollToBottom(`Transpose-${matrixKey}`));
+	};
+
+	const adjoint = async (matrixKey) => {
+		disableBtn[matrixKey].adjoint = true;
+		const currentMatrixDict = matrices[matrixKey];
+		const response = await API.post('/matrix_adjoint', { matrix: matrices[matrixKey].matrix });
+		if (response.error) {
+			toast.error(response.message);
+			disableBtn[matrixKey].adjoint = false;
+			return;
+		}
+		matrixAdjoint[matrixKey] = response.result;
+		toast.success('Easier said then done. You got the Inverse');
+		await sleep(100).then(() => scrollToBottom(`Adjoint-${matrixKey}`));
+		disableBtn[matrixKey].adjoint = false;
 	};
 
 	const inverse = async (matrixKey) => {
@@ -161,8 +191,64 @@
 		matrices[matrixKey].determinant = response.determinant;
 		matrixInverse[matrixKey] = response.result;
 		toast.success('Easier said then done. You got the Inverse');
+		// await sleep(100).then(() => scrollToBottom(`Inverse-${matrixKey}`));
 		disableBtn[matrixKey].inverse = false;
 	};
+
+	const handleCalculations = async (calculatorKey) => {
+		advancedCalculator[calculatorKey].disabled = true;
+		const currentWorkingMatrices = advancedCalculator[calculatorKey].inputValue.split(",")
+		if (currentWorkingMatrices.length < 2) {
+			toast.error(`Please provide two or more matrices`)
+			advancedCalculator[calculatorKey].error = `You have to provide at least two matrices for ${calculatorKey}`
+			advancedCalculator[calculatorKey].disabled = false;
+			return;
+		}
+		let finalMatricesData: Record<string, number> = {}
+		let finalMatrixCollection = []
+		for (const matricesKeyData of currentWorkingMatrices) {
+			let { numbers, alphabet } = await extractNumbersAndAlphabet(matricesKeyData)
+			if ( alphabet === null ) {
+				toast.error(`Given matrix ${matricesKeyData} is not valid`)
+				advancedCalculator[calculatorKey].error = `You have to provide matrix names to without that ${calculatorKey} is not going to take place.`
+				advancedCalculator[calculatorKey].disabled = false;
+				return;
+			} if (numbers === null) {
+				numbers = <RegExpMatchArray>['1']
+			}
+			const key = alphabet.join("")
+			const multiplier = parseInt(numbers.join(""))
+			if (!matrices.hasOwnProperty(key) ||  matrices[key] === 'empty') {
+				toast.error(`Given matrix ${key} doesn't exist`)
+				advancedCalculator[calculatorKey].error = "Please provide a existing matrix from the panel where you have all the matrices."
+					advancedCalculator[calculatorKey].disabled = false;
+				return;
+			}
+			const currentMatrix = matrices[key].matrix
+			if (multiplier === 1) {
+				finalMatrixCollection.push(currentMatrix)
+			} else {
+				const scalarProductMatrix = currentMatrix.map(
+					row => row.map(
+						col => col * multiplier
+					)
+				)
+				finalMatrixCollection.push(scalarProductMatrix)
+			}
+		}
+
+		const response = await API.post(`/matrix_${calculatorKey}`, { matrix: finalMatrixCollection });
+		if (response.error) {
+			toast.error(response.message);
+			advancedCalculator[calculatorKey].disabled = false;
+			advancedCalculator[calculatorKey].error = response.message
+			return;
+		}
+		advancedCalculator[calculatorKey].answer = response.result;
+		toast.success('Easier said then done. You got the answer');
+		advancedCalculator[calculatorKey].error = null
+	}
+
 	let isOpen = false;
 	const handleToggle = () => {
 		isOpen = !isOpen;
@@ -316,6 +402,31 @@
 							</button>
 							<button
 								type="button"
+								on:click={adjoint(matrixKey)}
+								disabled={disableBtn[matrixKey].adjoint}
+								class="{disableBtn[matrixKey].adjoint
+									? 'cursor-not-allowed'
+									: ''} inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke-width="1.5"
+									stroke="currentColor"
+									class="mr-2 h-6 w-6"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+									/>
+								</svg>
+
+								Calculate Adjoint
+							</button>
+							<button
+								type="button"
 								on:click={inverse(matrixKey)}
 								disabled={disableBtn[matrixKey].inverse}
 								class="{disableBtn[matrixKey].inverse
@@ -378,7 +489,11 @@
 			>
 				{#each Object.keys(matrices) as matrixKey}
 					{#if matrixTranspose.hasOwnProperty(matrixKey)}
-						<div class="flex flex-col items-center justify-center " transition:fade>
+						<div
+							id="Transpose-{matrixKey}"
+							class="flex flex-col items-center justify-center "
+							transition:fade
+						>
 							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
 								<span class="mb-1 text-xl font-bold">
 									Transpose {matrices[matrixKey].name}
@@ -437,6 +552,102 @@
 	</section>
 {/if}
 
+{#if Object.keys(matrixAdjoint).length}
+	<section id="matrixAdjointViewer" class="py-5">
+		<div class="grid grid-cols-3" transition:fade>
+			<div
+				class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+					stroke-width="1.5"
+					stroke="currentColor"
+					class="mr-2 h-5 w-5"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+					/>
+				</svg>
+
+				Calculated Adjnoint
+			</div>
+		</div>
+
+		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+			<div
+				transition:slide
+				class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
+			>
+				{#each Object.keys(matrices) as matrixKey}
+					{#if matrixAdjoint.hasOwnProperty(matrixKey)}
+						<div
+							id="Adjoint-{matrixKey}"
+							class="flex flex-col items-center justify-center "
+							transition:fade
+						>
+							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
+								<span class="mb-1 text-xl font-bold">
+									Adjoint {matrices[matrixKey].name}
+								</span>
+								<button
+									type="button"
+									class="group inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="mr-2 h-5 w-5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+										/>
+									</svg>
+									{matrices[matrixKey].name}
+								</button>
+							</div>
+							<div class="flex flex-row space-x-2">
+								<span>
+									Rows:
+									<input
+										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+										type="number"
+										disabled
+										value={matrixAdjoint[matrixKey].length}
+									/>
+								</span>
+								<span>
+									Columns:
+									<input
+										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+										type="number"
+										disabled
+										value={matrixAdjoint[matrixKey][0].length}
+									/>
+								</span>
+							</div>
+							<MatrixView
+								rows={matrixAdjoint[matrixKey].length}
+								columns={matrixAdjoint[matrixKey][0].length}
+								matrix={matrixAdjoint[matrixKey]}
+								bg="bg-sky-500"
+							/>
+						</div>
+					{/if}
+				{/each}
+			</div>
+		</div>
+	</section>
+{/if}
+
 {#if Object.keys(matrixInverse).length}
 	<section id="matrixInverseViewer" class="py-5">
 		<div class="grid grid-cols-3" transition:fade>
@@ -469,7 +680,11 @@
 			>
 				{#each Object.keys(matrices) as matrixKey}
 					{#if matrixInverse.hasOwnProperty(matrixKey)}
-						<div class="flex flex-col items-center justify-center " transition:fade>
+						<div
+							id="Inverse-{matrixKey}"
+							class="flex flex-col items-center justify-center "
+							transition:fade
+						>
 							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
 								<span class="mb-1 text-xl font-bold">
 									Inverse {matrices[matrixKey].name}
@@ -530,21 +745,135 @@
 {/if}
 
 <Drawer {isOpen} on:clickAway={handleToggle}>
-	<button class="text-bold m-12 text-xl" on:click={handleToggle}>Close</button>
+	<button class="text-bold m-12 flex flex-row text-xl text-red-700" on:click={handleToggle}>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			stroke="currentColor"
+			class="h-7 w-7"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+			/>
+		</svg> Close
+	</button>
+
+	<div class="mx-auto max-w-7xl px-4 space-y-4 sm:px-6 lg:px-8">
+		{#each Object.keys(advancedCalculator) as calculator}
+		<div class="mx-auto max-w-xl">
+			<div>
+				<label for="additionText" class="capitalize text-sm font-medium text-gray-900">Multiple Matrix {calculator}</label>
+				<div class="relative">
+					<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+						{@html Icons[calculator]}
+<!--						<svg-->
+<!--							xmlns="http://www.w3.org/2000/svg"-->
+<!--							fill="none"-->
+<!--							viewBox="0 0 24 24"-->
+<!--							stroke-width="1.5"-->
+<!--							stroke="currentColor"-->
+<!--							class="h-5 w-5 text-gray-500 rotate-90"-->
+<!--						>-->
+<!--							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />-->
+<!--						</svg>-->
+					</div>
+					<input
+						type="text"
+						id="additionText"
+						bind:value={advancedCalculator[calculator].inputValue}
+						class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+						placeholder="Provide matrix name with comma e.g. A, B, C"
+						required
+					/>
+					<button
+						type="submit"
+						on:click={handleCalculations(calculator)}
+						disabled="{advancedCalculator[calculator].disabled}"
+						class="absolute right-2.5 bottom-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+						>Calculate</button
+					>
+				</div>
+				{#if advancedCalculator[calculator].error}
+					<p class="mt-1 text-sm font-medium text-red-500">{advancedCalculator[calculator].error}</p>
+				{/if}
+				{#if advancedCalculator[calculator].answer.length > 0}
+					<div
+						id="New-{calculator}"
+						class="flex flex-col items-center justify-center mt-4 "
+						transition:fade
+					>
+						<div class="flex inline-flex flex-row items-center justify-center space-x-10">
+								<span class="mb-1 text-xl font-bold capitalize">
+									{calculator} {advancedCalculator[calculator].inputValue}
+								</span>
+<!--							<button-->
+<!--								type="button"-->
+<!--								class="group inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"-->
+<!--							>-->
+<!--								<svg-->
+<!--									xmlns="http://www.w3.org/2000/svg"-->
+<!--									fill="none"-->
+<!--									viewBox="0 0 24 24"-->
+<!--									stroke-width="1.5"-->
+<!--									stroke="currentColor"-->
+<!--									class="mr-2 h-5 w-5"-->
+<!--								>-->
+<!--									<path-->
+<!--										stroke-linecap="round"-->
+<!--										stroke-linejoin="round"-->
+<!--										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"-->
+<!--									/>-->
+<!--								</svg>-->
+<!--								&lt;!&ndash;{matrices[matrixKey].name}&ndash;&gt;-->
+<!--							</button>-->
+						</div>
+						<div class="flex flex-row space-x-2">
+								<span>
+									Rows:
+									<input
+										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+										type="number"
+										disabled
+										value={advancedCalculator[calculator].answer.length}
+									/>
+								</span>
+							<span>
+									Columns:
+									<input
+										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+										type="number"
+										disabled
+										value={advancedCalculator[calculator].answer[0].length}
+									/>
+								</span>
+						</div>
+						<MatrixView
+							rows={advancedCalculator[calculator].answer.length}
+							columns={advancedCalculator[calculator].answer[0].length}
+							matrix={advancedCalculator[calculator].answer}
+							bg="bg-blue-500"
+						/>
+					</div>
+					{/if}
+			</div>
+		</div>
+			{/each}
+	</div>
+
 </Drawer>
 
 <div class="flex">
-	<div class="fixed group transition duration-75 ease-in-out inline-block p-3 text-xs font-medium leading-tight text-white uppercase transition duration-150 ease-in-out bg-blue-600 rounded-full shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg bottom-5 right-5">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-8 w-8 cursor-pointer duration-100 hover:scale-110"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			stroke-width="2"
-			on:click={handleToggle}
-		>
-			<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+	<div
+		on:click={handleToggle}
+		class="group flex flex-row items-center space-x-2 justify-center fixed bottom-10 right-5 inline-block rounded-full bg-indigo-600 p-3 font-medium uppercase leading-tight text-white shadow-md transition transition duration-75 duration-150 ease-in-out ease-in-out hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg md:right-32"
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+			<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" />
 		</svg>
+		<span class="cursor-default text"> Advance Matrix Calculator </span>
 	</div>
 </div>
