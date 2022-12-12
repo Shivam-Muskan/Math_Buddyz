@@ -245,6 +245,7 @@
 			return;
 		}
 		advancedCalculator[calculatorKey].answer = response.result;
+		advancedCalculator[calculatorKey].disabled = false;
 		toast.success('Easier said then done. You got the answer');
 		advancedCalculator[calculatorKey].error = null
 	}
