@@ -873,7 +873,7 @@
 		<span class="text cursor-default"> Advance Matrix Calculator </span>
 	</div>
 
-	<div class="sideItems bottom-[30rem]	-right-[9.1rem] md:bottom-24 md:right-5">
+	<div class="sideItems bottom-[22rem] -right-4 md:bottom-24 md:right-5">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
@@ -887,7 +887,7 @@
 				d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
 			/>
 		</svg>
-		<span class="text cursor-default"> How To Use Matrix Calculator Guide </span>
+		<span class="text cursor-default"> Guide </span>
 	</div>
 </div>
 
