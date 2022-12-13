@@ -4,13 +4,19 @@
 			name: 'General Calculator',
 			route: '/general',
 			def: `It's for all type of general calculations.`,
-			image: 'matrix.jpeg'
+			image: 'general.png'
+		},
+		{
+			name: 'Binary Calculator',
+			route: '/binary',
+			def: `It's for all type of binary calculations.`,
+			image: 'binary.png'
 		},
 		{
 			name: 'Matrix Calculator',
 			route: '/matrix',
 			def: `It's for all type of matrix calculations.`,
-			image: 'matrix.jpeg'
+			image: 'matrix.png'
 		}
 	];
 </script>
@@ -39,7 +45,7 @@
 					/>
 
 					<a
-						href="/"
+						href="#calculators"
 						title=""
 						class="font-pj relative inline-flex items-center justify-center rounded-xl bg-gray-900 px-8 py-4 text-lg font-bold text-white transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
 						role="button"
@@ -61,7 +67,8 @@
 		</div>
 
 		<div
-			class="mx-auto mt-12 grid max-w-md grid-cols-1 gap-y-12 gap-x-8 sm:mt-16 md:max-w-none md:grid-cols-3"
+			id="#calculators"
+			class="mx-auto mt-12 grid max-w-md snap-end grid-cols-1 gap-y-12 gap-x-8 sm:mt-16 md:max-w-none md:grid-cols-3"
 		>
 			{#each all_calculators as calculator}
 				<a data-sveltekit-preload-data="hover" href={calculator.route}>
@@ -69,10 +76,10 @@
 						<a
 							href={calculator.route}
 							title=""
-							class="aspect-w-16 aspect-h-9 flex shrink-0 overflow-hidden"
+							class="aspect-w-16 aspect-h-9 flex shrink-0 overflow-hidden rounded-lg"
 						>
 							<img
-								class="h-full w-full transform object-cover transition-all duration-200 group-hover:scale-110"
+								class="h-full w-full transform rounded-lg object-cover transition-all duration-500 group-hover:scale-75"
 								src={calculator.image}
 								alt=""
 							/>

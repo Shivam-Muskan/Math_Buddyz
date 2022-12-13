@@ -4,7 +4,7 @@
 	import { Toaster } from 'svelte-french-toast';
 </script>
 
-<div class="min-h-screen bg-gray-100">
+<div class="min-h-screen scroll-smooth bg-gray-100">
 	<Toaster />
 	<Navigation />
 	<slot />

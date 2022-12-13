@@ -58,8 +58,8 @@
 
 				<a
 					data-sveltekit-preload-data="hover"
-					href="/"
-					title=""
+					href="https://math-buddyz-python.vercel.app/docs"
+					target="_blank"
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
 				>
 					API Docs

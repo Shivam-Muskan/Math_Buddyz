@@ -408,7 +408,7 @@
 									<path
 										stroke-linecap="round"
 										stroke-linejoin="round"
-										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+										d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
 									/>
 								</svg>
 
@@ -424,16 +424,14 @@
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
+									viewBox="0 0 20 20"
+									fill="currentColor"
 									class="mr-2 h-6 w-6"
 								>
 									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+										fill-rule="evenodd"
+										d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
+										clip-rule="evenodd"
 									/>
 								</svg>
 
@@ -458,7 +456,7 @@
 									<path
 										stroke-linecap="round"
 										stroke-linejoin="round"
-										d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+										d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
 									/>
 								</svg>
 								Calculate Inverse
@@ -471,293 +469,290 @@
 	</div>
 </section>
 
-{#if Object.keys(matrixTranspose).length}
-	<section id="matrixTransposeViewer" class="py-5">
-		<div class="grid grid-cols-3" transition:fade>
-			<div
-				class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-fuchsia-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="mr-2 h-5 w-5"
+<div class="mb-10">
+	{#if Object.keys(matrixTranspose).length}
+		<section id="matrixTransposeViewer" class="py-5">
+			<div class="flex" transition:fade>
+				<div
+					class="mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-fuchsia-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
-					/>
-				</svg>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="mr-2 h-5 w-5"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+						/>
+					</svg>
 
-				Calculated Transposes
+					Calculated Transposes
+				</div>
 			</div>
-		</div>
 
-		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-			<div
-				transition:slide
-				class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
-			>
-				{#each Object.keys(matrices) as matrixKey}
-					{#if matrixTranspose.hasOwnProperty(matrixKey)}
-						<div
-							id="Transpose-{matrixKey}"
-							class="flex flex-col items-center justify-center "
-							transition:fade
-						>
-							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
-								<span class="mb-1 text-xl font-bold">
-									Transpose {matrices[matrixKey].name}
-								</span>
-								<button
-									type="button"
-									class="group inline-flex items-center justify-center rounded-md border border-transparent bg-fuchsia-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										class="mr-2 h-5 w-5"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
-										/>
-									</svg>
-									{matrices[matrixKey].name}
-								</button>
-							</div>
-							<div class="flex flex-row space-x-2">
-								<span>
-									Rows:
-									<input
-										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
-										type="number"
-										disabled
-										value={matrixTranspose[matrixKey].length}
-									/>
-								</span>
-								<span>
-									Columns:
-									<input
-										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
-										type="number"
-										disabled
-										value={matrixTranspose[matrixKey][0].length}
-									/>
-								</span>
-							</div>
-							<MatrixView
-								rows={matrixTranspose[matrixKey].length}
-								columns={matrixTranspose[matrixKey][0].length}
-								matrix={matrixTranspose[matrixKey]}
-							/>
-						</div>
-					{/if}
-				{/each}
-			</div>
-		</div>
-	</section>
-{/if}
-
-{#if Object.keys(matrixAdjoint).length > 0}
-	<section id="matrixAdjointViewer" class="py-5">
-		<div class="grid grid-cols-3" transition:fade>
-			<div
-				class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="mr-2 h-5 w-5"
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div
+					transition:slide
+					class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
-					/>
-				</svg>
-
-				Calculated Adjnoint
-			</div>
-		</div>
-
-		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-			<div
-				transition:slide
-				class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
-			>
-				{#each Object.keys(matrices) as matrixKey}
-					{#if matrixAdjoint.hasOwnProperty(matrixKey)}
-						<div
-							id="Adjoint-{matrixKey}"
-							class="flex flex-col items-center justify-center "
-							transition:fade
-						>
-							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
-								<span class="mb-1 text-xl font-bold">
-									Adjoint {matrices[matrixKey].name}
-								</span>
-								<button
-									type="button"
-									class="group inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										class="mr-2 h-5 w-5"
+					{#each Object.keys(matrices) as matrixKey}
+						{#if matrixTranspose.hasOwnProperty(matrixKey)}
+							<div
+								id="Transpose-{matrixKey}"
+								class="flex flex-col items-center justify-center "
+								transition:fade
+							>
+								<div class="flex inline-flex flex-row items-center justify-center space-x-10">
+									<span class="mb-1 text-xl font-bold">
+										Transpose {matrices[matrixKey].name}
+									</span>
+									<button
+										type="button"
+										class="group inline-flex items-center justify-center rounded-md border border-transparent bg-fuchsia-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
 									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="mr-2 h-5 w-5"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"
+											/>
+										</svg>
+										{matrices[matrixKey].name}
+									</button>
+								</div>
+								<div class="flex flex-row space-x-2">
+									<span>
+										Rows:
+										<input
+											class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+											type="number"
+											disabled
+											value={matrixTranspose[matrixKey].length}
 										/>
-									</svg>
-									{matrices[matrixKey].name}
-								</button>
+									</span>
+									<span>
+										Columns:
+										<input
+											class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+											type="number"
+											disabled
+											value={matrixTranspose[matrixKey][0].length}
+										/>
+									</span>
+								</div>
+								<MatrixView
+									rows={matrixTranspose[matrixKey].length}
+									columns={matrixTranspose[matrixKey][0].length}
+									matrix={matrixTranspose[matrixKey]}
+								/>
 							</div>
-							<div class="flex flex-row space-x-2">
-								<span>
-									Rows:
-									<input
-										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
-										type="number"
-										disabled
-										value={matrixAdjoint[matrixKey].length}
-									/>
-								</span>
-								<span>
-									Columns:
-									<input
-										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
-										type="number"
-										disabled
-										value={matrixAdjoint[matrixKey][0].length}
-									/>
-								</span>
-							</div>
-							<MatrixView
-								rows={matrixAdjoint[matrixKey].length}
-								columns={matrixAdjoint[matrixKey][0].length}
-								matrix={matrixAdjoint[matrixKey]}
-								bg="bg-sky-500"
-							/>
-						</div>
-					{/if}
-				{/each}
+						{/if}
+					{/each}
+				</div>
 			</div>
-		</div>
-	</section>
-{/if}
+		</section>
+	{/if}
 
-{#if Object.keys(matrixInverse).length > 0}
-	<section id="matrixInverseViewer" class="py-5">
-		<div class="grid grid-cols-3" transition:fade>
-			<div
-				class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
-			>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					class="mr-2 h-5 w-5"
+	{#if Object.keys(matrixAdjoint).length > 0}
+		<section id="matrixAdjointViewer" class="py-5">
+			<div class="grid grid-cols-3" transition:fade>
+				<div
+					class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
 				>
-					<path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
-					/>
-				</svg>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						class="mr-2 h-5 w-5"
+					>
+						<path
+							fill-rule="evenodd"
+							d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
+							clip-rule="evenodd"
+						/>
+					</svg>
 
-				Calculated Inverse
+					Calculated Adjoint
+				</div>
 			</div>
-		</div>
 
-		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-			<div
-				transition:slide
-				class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
-			>
-				{#each Object.keys(matrices) as matrixKey}
-					{#if matrixInverse.hasOwnProperty(matrixKey)}
-						<div
-							id="Inverse-{matrixKey}"
-							class="flex flex-col items-center justify-center "
-							transition:fade
-						>
-							<div class="flex inline-flex flex-row items-center justify-center space-x-10">
-								<span class="mb-1 text-xl font-bold">
-									Inverse {matrices[matrixKey].name}
-								</span>
-								<button
-									type="button"
-									class="group inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
-								>
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke-width="1.5"
-										stroke="currentColor"
-										class="mr-2 h-5 w-5"
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div
+					transition:slide
+					class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
+				>
+					{#each Object.keys(matrices) as matrixKey}
+						{#if matrixAdjoint.hasOwnProperty(matrixKey)}
+							<div
+								id="Adjoint-{matrixKey}"
+								class="flex flex-col items-center justify-center "
+								transition:fade
+							>
+								<div class="flex inline-flex flex-row items-center justify-center space-x-10">
+									<span class="mb-1 text-xl font-bold">
+										Adjoint {matrices[matrixKey].name}
+									</span>
+									<button
+										type="button"
+										class="group inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
 									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+											class="mr-2 h-5 w-5"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+										{matrices[matrixKey].name}
+									</button>
+								</div>
+								<div class="flex flex-row space-x-2">
+									<span>
+										Rows:
+										<input
+											class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+											type="number"
+											disabled
+											value={matrixAdjoint[matrixKey].length}
 										/>
-									</svg>
-									{matrices[matrixKey].name}
-								</button>
+									</span>
+									<span>
+										Columns:
+										<input
+											class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+											type="number"
+											disabled
+											value={matrixAdjoint[matrixKey][0].length}
+										/>
+									</span>
+								</div>
+								<MatrixView
+									rows={matrixAdjoint[matrixKey].length}
+									columns={matrixAdjoint[matrixKey][0].length}
+									matrix={matrixAdjoint[matrixKey]}
+									bg="bg-sky-500"
+								/>
 							</div>
-							<div class="flex flex-row space-x-2">
-								<span>
-									Rows:
-									<input
-										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
-										type="number"
-										disabled
-										value={matrixInverse[matrixKey].length}
-									/>
-								</span>
-								<span>
-									Columns:
-									<input
-										class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
-										type="number"
-										disabled
-										value={matrixInverse[matrixKey][0].length}
-									/>
-								</span>
-							</div>
-							<MatrixView
-								rows={matrixInverse[matrixKey].length}
-								columns={matrixInverse[matrixKey][0].length}
-								matrix={matrixInverse[matrixKey]}
-								bg="bg-teal-500"
-							/>
-						</div>
-					{/if}
-				{/each}
+						{/if}
+					{/each}
+				</div>
 			</div>
-		</div>
-	</section>
-{/if}
+		</section>
+	{/if}
 
+	{#if Object.keys(matrixInverse).length > 0}
+		<section id="matrixInverseViewer" class="py-5">
+			<div class="grid grid-cols-3" transition:fade>
+				<div
+					class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						class="mr-2 h-5 w-5"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+						/>
+					</svg>
+
+					Calculated Inverse
+				</div>
+			</div>
+
+			<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+				<div
+					transition:slide
+					class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-10 sm:mt-16 md:grid-cols-4"
+				>
+					{#each Object.keys(matrices) as matrixKey}
+						{#if matrixInverse.hasOwnProperty(matrixKey)}
+							<div
+								id="Inverse-{matrixKey}"
+								class="flex flex-col items-center justify-center "
+								transition:fade
+							>
+								<div class="flex inline-flex flex-row items-center justify-center space-x-10">
+									<span class="mb-1 text-xl font-bold">
+										Inverse {matrices[matrixKey].name}
+									</span>
+									<button
+										type="button"
+										class="group inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-2 py-1 text-sm leading-5 text-white transition-all duration-200"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="mr-2 h-5 w-5"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M3 7.5L7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5"
+											/>
+										</svg>
+										{matrices[matrixKey].name}
+									</button>
+								</div>
+								<div class="flex flex-row space-x-2">
+									<span>
+										Rows:
+										<input
+											class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+											type="number"
+											disabled
+											value={matrixInverse[matrixKey].length}
+										/>
+									</span>
+									<span>
+										Columns:
+										<input
+											class="mx-auto my-3 w-7 rounded bg-white px-2 text-center"
+											type="number"
+											disabled
+											value={matrixInverse[matrixKey][0].length}
+										/>
+									</span>
+								</div>
+								<MatrixView
+									rows={matrixInverse[matrixKey].length}
+									columns={matrixInverse[matrixKey][0].length}
+									matrix={matrixInverse[matrixKey]}
+									bg="bg-teal-500"
+								/>
+							</div>
+						{/if}
+					{/each}
+				</div>
+			</div>
+		</section>
+	{/if}
+</div>
 <Drawer {isOpen} on:clickAway={handleToggle}>
 	<button class="text-bold m-12 flex flex-row text-xl text-red-700" on:click={handleToggle}>
 		<svg
