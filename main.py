@@ -1,8 +1,5 @@
-from typing import List
-
 import uvicorn
-from fastapi import FastAPI, APIRouter
-from pydantic import BaseModel
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from backend.fibonacci import n_th_fibonacci, calc_sum, is_fibonacci, is_fib_series, fib_series
@@ -22,7 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app_name = "Math Buddyz"
-version = 0.1
+app_version = 0.1
 
 
 @app.get("/health")
@@ -36,7 +33,7 @@ async def health():
 async def version():
     return {
         "name": app_name,
-        "version": version
+        "version": app_version
     }
 
 
