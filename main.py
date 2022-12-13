@@ -22,18 +22,18 @@ app_name = "Math Buddyz"
 app_version = 0.1
 
 
-@app.get("/health")
-async def health():
-    return {
-        "check": "Ok"
-    }
-
-
 @app.get("/")
 async def version():
     return {
         "name": app_name,
         "version": app_version
+    }
+
+
+@app.get("/health")
+async def health():
+    return {
+        "check": "Ok"
     }
 
 
