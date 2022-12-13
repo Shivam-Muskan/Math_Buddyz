@@ -272,12 +272,12 @@
 <Header heading="Matrix Calculator" />
 
 <section id="matrixEditor" class="py-5">
-	<div class="grid grid-cols-3">
+	<div class="flex">
 		<button
 			type="button"
 			on:click={newMatrix}
 			disabled={newMatrixAddBtn}
-			class="col-start-2 mx-auto inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
+			class="mx-auto flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -855,10 +855,7 @@
 </Drawer>
 
 <div class="flex">
-	<div
-		on:click={handleToggle}
-		class="group fixed bottom-10 right-5 inline-block flex flex-row items-center justify-center space-x-2 rounded-full bg-indigo-600 p-3 font-medium uppercase leading-tight text-white shadow-md transition transition duration-75 duration-150 ease-in-out ease-in-out hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg md:right-32"
-	>
+	<div on:click={handleToggle} class="sideItems bottom-36 -right-28 md:bottom-10 md:right-5">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			fill="none"
@@ -875,4 +872,27 @@
 		</svg>
 		<span class="text cursor-default"> Advance Matrix Calculator </span>
 	</div>
+
+	<div class="sideItems bottom-[30rem]	-right-[9.1rem] md:bottom-24 md:right-5">
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			stroke="currentColor"
+			class="h-6 w-6"
+		>
+			<path
+				stroke-linecap="round"
+				d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z"
+			/>
+		</svg>
+		<span class="text cursor-default"> How To Use Matrix Calculator Guide </span>
+	</div>
 </div>
+
+<style>
+	.sideItems {
+		@apply fixed inline-block flex rotate-90 flex-row items-center justify-center space-x-2 rounded-full bg-indigo-600 p-3 font-medium uppercase leading-tight text-white shadow-md transition transition duration-75 duration-150 ease-in-out ease-in-out hover:bg-indigo-700 hover:shadow-lg focus:bg-indigo-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-indigo-800 active:shadow-lg md:right-32 md:rotate-0;
+	}
+</style>
