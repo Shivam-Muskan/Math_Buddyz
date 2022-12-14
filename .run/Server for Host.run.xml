@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Server for Host" type="Python.FastAPI">
     <option name="additionalOptions" value="--reload --host 192.168.2.101 --port 8080" />
-    <option name="file" value="$PROJECT_DIR$/main.py" />
+    <option name="file" value="$PROJECT_DIR$/backend/api.py" />
     <module name="Math_Buddyz" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

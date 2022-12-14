@@ -1,19 +1,21 @@
-import math
+from math import sqrt
 
 
-# Function for nth fibonacci number :
+# Function for nth fibonacci number
 def n_th_fibonacci(n):
     if n <= 0:
         print("Incorrect input")
         return None
 
-    if n == 1:
-        return 0
+    # if n == 1:
+    #     return 0
+    #
+    # if n == 2:
+    #     return 1
 
-    if n == 2:
-        return 1
-
-    return n_th_fibonacci(n - 1) + n_th_fibonacci(n - 2)
+    # return n_th_fibonacci(n - 1) + n_th_fibonacci(n - 2)
+    res = (((1 + sqrt(5)) ** n) - (1 - sqrt(5)) ** n) / (2 ** n * sqrt(5))
+    return res
 
 
 # Find Fibonacci Series of a number
@@ -51,7 +53,7 @@ def calc_sum(n):
 
 # Check if number is fibonacci or not
 def is_perfect_square(x):
-    s = int(math.sqrt(x))
+    s = int(sqrt(x))
     return s * s == x
 
 
