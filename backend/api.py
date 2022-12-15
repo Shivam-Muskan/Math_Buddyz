@@ -9,9 +9,7 @@ app_name = "Math Buddyz"
 app_version = 0.3
 
 origins = [
-    "http://192.168.2.101:5174/",
-    "http://192.168.2.101:5173/",
-    "https://math-buddyz.vercel.app/",
+    "*"
 ]
 
 app.add_middleware(
