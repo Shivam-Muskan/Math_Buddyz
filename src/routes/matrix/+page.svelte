@@ -146,7 +146,7 @@
 	const determinant = async (matrixKey) => {
 		disableBtn[matrixKey].determinant = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_determinant', { matrix: currentMatrixDict.matrix });
+		const response = await API.post('/matrix_determinant/', { matrix: currentMatrixDict.matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].determinant = false;
@@ -163,7 +163,7 @@
 	const transpose = async (matrixKey) => {
 		disableBtn[matrixKey].transpose = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_transpose', { matrix: matrices[matrixKey].matrix });
+		const response = await API.post('/matrix_transpose/', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].transpose = false;
@@ -178,7 +178,7 @@
 	const adjoint = async (matrixKey) => {
 		disableBtn[matrixKey].adjoint = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_adjoint', { matrix: matrices[matrixKey].matrix });
+		const response = await API.post('/matrix_adjoint/', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].adjoint = false;
@@ -193,7 +193,7 @@
 	const inverse = async (matrixKey) => {
 		disableBtn[matrixKey].inverse = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_inverse', { matrix: matrices[matrixKey].matrix });
+		const response = await API.post('/matrix_inverse/', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].inverse = false;

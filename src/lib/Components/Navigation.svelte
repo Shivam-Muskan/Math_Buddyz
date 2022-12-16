@@ -7,7 +7,7 @@
 					title=""
 					class="flex items-center space-x-2 rounded outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
 				>
-					<img class="h-8 w-auto" src="logo.svg" alt="Math Buddyz" />
+					<img class="h-8 w-auto" src="logo.webp" alt="Math Buddyz" />
 					<span
 						class="animate-text bg-gradient-to-r from-amber-500 via-red-500 to-yellow-500 bg-clip-text
             						text-xl font-bold text-transparent

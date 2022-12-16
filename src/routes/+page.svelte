@@ -4,19 +4,19 @@
 			name: 'General Calculator',
 			route: '/general',
 			def: `It's for all type of general calculations.`,
-			image: 'general.png'
+			image: 'general.webp'
 		},
 		{
 			name: 'Binary Calculator',
 			route: '/binary',
 			def: `It's for all type of binary calculations.`,
-			image: 'binary.png'
+			image: 'binary.webp'
 		},
 		{
 			name: 'Matrix Calculator',
 			route: '/matrix',
 			def: `It's for all type of matrix calculations.`,
-			image: 'matrix.png'
+			image: 'matrix.webp'
 		}
 	];
 </script>
