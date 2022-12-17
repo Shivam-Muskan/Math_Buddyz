@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { allCalculators, miniSearch } from '$lib/utils/searchCalculator.js';
 	import { slide } from 'svelte/transition';
+	import {clickOutside} from "$lib/utils/clickOutside";
 
 	let calculatorSearchValue = '';
 	let searchedCalculators = [];
+	let showSearchResults = false
+	$: showSearchResults = searchedCalculators.length > 0
+
 	const handleSearch = async () => {
 		if (calculatorSearchValue.length > 1) {
 			return (searchedCalculators = miniSearch.search(calculatorSearchValue));
@@ -45,8 +49,8 @@
 							placeholder="Search calculator"
 						/>
 					</div>
-					{#if searchedCalculators.length > 0}
-						<div
+					{#if showSearchResults}
+						<div use:clickOutside on:click_outside={() => { showSearchResults = false }}
 							class={`sc dropdown-content rounded-t-box rounded-b-box top-px mt-28 h-fit max-h-[30vh] w-72 overflow-y-auto text-base-content shadow-2xl`}
 						>
 							<div class="grid grid-cols-1 gap-3 p-3" tabindex="0" transition:slide>
