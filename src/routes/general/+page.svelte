@@ -1,6 +1,6 @@
 <script>
 	import toast from 'svelte-french-toast';
-	import { parse, compile, evaluate } from 'mathjs';
+	import { parse } from 'mathjs';
 
 	const calcPad = {
 		rowOne: ['AC', 'C', '🔙', '/'],
@@ -48,8 +48,8 @@
 		<div
 			class="flex h-40 w-full flex-col items-end bg-gradient-to-b from-gray-800 to-gray-700 text-right"
 		>
-			<div class="w-full py-5 px-6 text-sm font-thin text-white">{currentValues}</div>
-			<div class="w-full py-5 px-6 text-6xl font-thin text-white">{calculated}</div>
+			<div class="w-full py-5 px-6 text-sm font-thin text-white transition-all ease-in-out duration-75">{currentValues}</div>
+			<div class="w-full py-5 px-6 text-6xl font-thin text-white transition-all ease-in-out duration-75">{typeof calculated === 'number' ? calculated : parseFloat(calculated).toPrecision(2)}</div>
 		</div>
 		<div class="w-full bg-gradient-to-b from-amber-400 to-amber-500">
 			{#each Object.keys(calcPad) as row}

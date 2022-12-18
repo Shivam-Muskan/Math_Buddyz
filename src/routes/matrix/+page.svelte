@@ -336,7 +336,7 @@
 							<span>
 								Rows:
 								<input
-									class="mx-auto my-3 w-7 rounded px-2 text-center"
+									class="mx-auto my-3 w-7 rounded border border-gray-800 px-2 text-center bg-gray-100 text-gray-900"
 									type="number"
 									on:input={numberOfRows(event, matrixKey)}
 									value={matrices[matrixKey].rows}
@@ -345,7 +345,7 @@
 							<span>
 								Columns:
 								<input
-									class="mx-auto my-3 w-7 rounded px-2 text-center"
+									class="mx-auto my-3 w-7 border border-gray-800 rounded px-2 text-center bg-gray-100 text-gray-900"
 									type="number"
 									on:input={numberOfColumns(event, matrixKey)}
 									value={matrices[matrixKey].columns}
@@ -357,7 +357,7 @@
 								<div class="mx-0 space-x-1 p-0">
 									{#each Array(matrices[matrixKey].columns) as _, column}
 										<input
-											class="mx-auto my-3 w-16 rounded px-2 py-1 text-center"
+											class="mx-auto my-3 w-16 rounded px-2 border border-gray-800 py-1 text-center bg-gray-100 text-gray-900 "
 											type="number"
 											bind:value={matrices[matrixKey].matrix[row][column]}
 											required
