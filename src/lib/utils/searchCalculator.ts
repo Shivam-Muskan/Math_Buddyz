@@ -18,7 +18,7 @@ export const allCalculators: {
 	},
 	{
 		id: 1,
-		name: 'Binary Calculator',
+		name: 'CNS Calculator',
 		route: '/binary',
 		def: `It's for all type of computer number system calculations.`,
 		keywords: '',
@@ -29,7 +29,7 @@ export const allCalculators: {
 		name: 'Matrix Calculator',
 		route: '/matrix',
 		def: `It's for all type of matrix calculations.`,
-		keywords: '',
+		keywords: 'Adjoint Calculator, Matrix Multiplication, Matrix Addition, Matrix Solver, Matrix Determinant, Matrix Inverse, Matrix Transpose',
 		image: 'matrix.webp'
 	},
 	{
