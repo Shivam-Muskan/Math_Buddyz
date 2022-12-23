@@ -63,7 +63,15 @@
 		Z: 'empty'
 	};
 
-	const newMatrix = async () => {
+	const newMatrix = async (preDefinedMatrix) => {
+		let newMatrixValue = [
+			[2, 3, 5],
+			[9, 8, 7],
+			[4, 5, 6]
+		];
+		if (preDefinedMatrix.length) {
+			newMatrixValue = preDefinedMatrix;
+		}
 		const keyWithValue = Object.keys(matrices).find((key) => matrices[key] === 'empty');
 
 		if (keyWithValue) {
@@ -72,11 +80,7 @@
 				rows: 3,
 				columns: 3,
 				determinant: null,
-				matrix: [
-					[2, 3, 5],
-					[9, 8, 7],
-					[4, 5, 6]
-				]
+				matrix: newMatrixValue
 			};
 
 			disableBtn[keyWithValue] = {
@@ -85,6 +89,7 @@
 				adjoint: false,
 				inverse: false
 			};
+			toast.success(`New matrix added ${keyWithValue}`);
 		} else toast.error("You can't add more matrix");
 
 		newMatrixAddBtn = false;
@@ -146,7 +151,7 @@
 	const determinant = async (matrixKey) => {
 		disableBtn[matrixKey].determinant = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_determinant', { matrix: currentMatrixDict.matrix });
+		const response = await API.post('/matrix_determinant/', { matrix: currentMatrixDict.matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].determinant = false;
@@ -163,7 +168,7 @@
 	const transpose = async (matrixKey) => {
 		disableBtn[matrixKey].transpose = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_transpose', { matrix: matrices[matrixKey].matrix });
+		const response = await API.post('/matrix_transpose/', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].transpose = false;
@@ -178,7 +183,7 @@
 	const adjoint = async (matrixKey) => {
 		disableBtn[matrixKey].adjoint = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_adjoint', { matrix: matrices[matrixKey].matrix });
+		const response = await API.post('/matrix_adjoint/', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].adjoint = false;
@@ -193,7 +198,7 @@
 	const inverse = async (matrixKey) => {
 		disableBtn[matrixKey].inverse = true;
 		const currentMatrixDict = matrices[matrixKey];
-		const response = await API.post('/matrix_inverse', { matrix: matrices[matrixKey].matrix });
+		const response = await API.post('/matrix_inverse/', { matrix: matrices[matrixKey].matrix });
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].inverse = false;
@@ -331,7 +336,7 @@
 							<span>
 								Rows:
 								<input
-									class="mx-auto my-3 w-7 rounded px-2 text-center"
+									class="mx-auto my-3 w-7 rounded border border-gray-800 bg-gray-100 px-2 text-center text-gray-900"
 									type="number"
 									on:input={numberOfRows(event, matrixKey)}
 									value={matrices[matrixKey].rows}
@@ -340,7 +345,7 @@
 							<span>
 								Columns:
 								<input
-									class="mx-auto my-3 w-7 rounded px-2 text-center"
+									class="mx-auto my-3 w-7 rounded border border-gray-800 bg-gray-100 px-2 text-center text-gray-900"
 									type="number"
 									on:input={numberOfColumns(event, matrixKey)}
 									value={matrices[matrixKey].columns}
@@ -352,7 +357,7 @@
 								<div class="mx-0 space-x-1 p-0">
 									{#each Array(matrices[matrixKey].columns) as _, column}
 										<input
-											class="mx-auto my-3 w-16 rounded px-2 py-1 text-center"
+											class="mx-auto my-3 w-16 rounded border border-gray-800 bg-gray-100 px-2 py-1 text-center text-gray-900 "
 											type="number"
 											bind:value={matrices[matrixKey].matrix[row][column]}
 											required
@@ -557,6 +562,30 @@
 									columns={matrixTranspose[matrixKey][0].length}
 									matrix={matrixTranspose[matrixKey]}
 								/>
+								<div class="mx-auto mt-5 flex flex-col space-y-3">
+									<button
+										type="button"
+										on:click={newMatrix(matrixTranspose[matrixKey])}
+										class="inline-flex items-center justify-center rounded-md border border-transparent bg-fuchsia-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200 hover:bg-fuchsia-500 focus:outline-none focus:ring-2 focus:ring-fuchsia-600 focus:ring-offset-2"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="mr-2 h-6 w-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M12 4.5v15m7.5-7.5h-15"
+											/>
+										</svg>
+
+										Add as New Matrix
+									</button>
+								</div>
 							</div>
 						{/if}
 					{/each}
@@ -649,6 +678,30 @@
 									matrix={matrixAdjoint[matrixKey]}
 									bg="bg-sky-500"
 								/>
+								<div class="mx-auto mt-5 flex flex-col space-y-3">
+									<button
+										type="button"
+										on:click={newMatrix(matrixAdjoint[matrixKey])}
+										class="inline-flex items-center justify-center rounded-md border border-transparent bg-sky-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200 hover:bg-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-600 focus:ring-offset-2"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="mr-2 h-6 w-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M12 4.5v15m7.5-7.5h-15"
+											/>
+										</svg>
+
+										Add as New Matrix
+									</button>
+								</div>
 							</div>
 						{/if}
 					{/each}
@@ -745,6 +798,30 @@
 									matrix={matrixInverse[matrixKey]}
 									bg="bg-teal-500"
 								/>
+								<div class="mx-auto mt-5 flex flex-col space-y-3">
+									<button
+										type="button"
+										on:click={newMatrix(matrixInverse[matrixKey])}
+										class="inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-6 py-3 text-sm font-semibold leading-5 text-white transition-all duration-200 hover:bg-teal-500 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor"
+											class="mr-2 h-6 w-6"
+										>
+											<path
+												stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M12 4.5v15m7.5-7.5h-15"
+											/>
+										</svg>
+
+										Add as New Matrix
+									</button>
+								</div>
 							</div>
 						{/if}
 					{/each}
