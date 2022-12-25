@@ -21,12 +21,22 @@ def initialize():
                     all_matrices[i][k] = [int(x) for x in row.split(",")]
                     break
         print_matrix(all_matrices[i], rows, cols)
-        print('\n',"Determinant :")
+        '''print('\n',"Determinant :")
         print("The determinant of the matrix is : ", matrix_det(all_matrices[i]))
         print('\n',"Transpose :")
         matrix_transpose(all_matrices[i])
         print('\n',"Inverse :",'\n')
-        matrix_inverse(all_matrices[i])
+        inverse = matrix_inverse(all_matrices[i])
+        print_matrix(inverse, len(inverse), len(inverse[0]))'''
+
+        print('\n',"Trace :",'\n')
+        matrix_trace(all_matrices[i])
+
+        print('\n', "Matrix power n : ")
+        n = int(input("Enter the power : "))
+        exponent_result = matrix_power_n(all_matrices[i], n)
+        if exponent_result is not None:
+            print_matrix(exponent_result, len(exponent_result), len(exponent_result[0]))
 
     return all_matrices, no_of_matrices
 
@@ -137,7 +147,6 @@ def matrix_inverse(matrix):
         inverse = [[round(matrix[1][1] / determinant, 2), round(-1 * matrix[0][1] / determinant, 2)],
                    [round(-1 * matrix[1][0] / determinant, 2), round(matrix[0][0] / determinant,2)]]
         print("The inverse Matrix is :\n", inverse)
-        print_matrix(inverse, len(inverse), len(inverse[0]))
         return inverse, determinant, None
 
     if determinant != 0:
@@ -148,7 +157,6 @@ def matrix_inverse(matrix):
                 inverse[r][c] = round(adjoint[r][c] / determinant, 2)
 
         print("The inverse Matrix is :\n", inverse)
-        print_matrix(inverse, len(inverse), len(inverse[0]))
         return inverse, determinant, None
 
     print("Inverse cannot be found.")
@@ -185,13 +193,89 @@ def multiple_matrix_addition(all_matrices, total_matrices):
     return matrix_result1[- 1]
 
 
+def matrix_trace(matrix):
+    if len(matrix) != len(matrix[0]):
+        print("Not a square matrix. Trace cannot be found.")
+        return None
+
+    trace = 0
+    for i in range(len(matrix[0])):
+        for j in range(len(matrix)):
+            if i == j :
+                trace += matrix[i][j]
+
+    print("Trace of given matrix is :", trace)
+    return trace
+
+
+def matrix_power_n(matrix, n):
+    if len(matrix) != len(matrix[0]):
+        print("Not a square matrix.")
+        return None, "Not a square matrix."
+
+    if n == 0:
+        print("Matrix power cannot be zero.")
+        return None, "Matrix power cannot be zero."
+
+    if n < 0 and matrix_det(matrix) == 0:
+        print("Power should be positive for singular matrix.")
+        return None, "Power should be positive for singular matrix."
+
+    if n < 0 and matrix_det(matrix) != 0:
+        n = -n
+        power_matrices = []
+        for i in range(n):
+            power_matrices.append(matrix)
+
+        res = multiple_matrix_multiply(power_matrices, n)
+        result = matrix_inverse(res)
+        return result, None
+
+    power_matrices = []
+    for i in range(n):
+        power_matrices.append(matrix)
+
+    result = multiple_matrix_multiply(power_matrices, n)
+
+    return result, None
+
+
 if __name__ == '__main__':
     matrices, num = initialize()
 
-    print('\n',"Multiplication :")
+    '''print('\n',"Multiplication :")
     multiply_result = multiple_matrix_multiply(matrices, num)
     print_matrix(multiply_result, len(multiply_result), len(multiply_result[0]))
 
     print('\n',"Addition :")
     addition_result = multiple_matrix_addition(matrices, num)
-    print_matrix(addition_result, len(addition_result), len(addition_result[0]))
+    print_matrix(addition_result, len(addition_result), len(addition_result[0]))'''
+
+
+'''
+# Another Method :
+def matrix_power(matrix, power):
+    result = [[0 for _ in range(len(matrix))] for _ in range(len(matrix[0]))]
+    determinant = matrix_det(matrix)
+    print("det:", determinant)
+    trace = matrix_trace(matrix)
+
+    if determinant == 0 and len(matrix) == 2:
+        for i in range(len(matrix[0])):
+            for j in range(len(matrix)):
+                result[i][j] = (trace ** (power - 1)) * matrix[i][j]
+
+        return result
+
+    if determinant != 0 and len(matrix) == 2 and power == 2:
+        for i in range(len(matrix[0])):
+            for j in range(len(matrix)):
+                if i == j:
+                    result[i][j] = (trace ** (power - 1)) * matrix[i][j] - determinant
+
+                result[i][j] = (trace ** (power - 1)) * matrix[i][j]
+
+        return result
+'''
+
+
