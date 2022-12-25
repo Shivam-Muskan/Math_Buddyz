@@ -21,13 +21,13 @@ def initialize():
                     all_matrices[i][k] = [int(x) for x in row.split(",")]
                     break
         print_matrix(all_matrices[i], rows, cols)
-        '''print('\n',"Determinant :")
+        print('\n',"Determinant :")
         print("The determinant of the matrix is : ", matrix_det(all_matrices[i]))
         print('\n',"Transpose :")
         matrix_transpose(all_matrices[i])
         print('\n',"Inverse :",'\n')
         inverse = matrix_inverse(all_matrices[i])
-        print_matrix(inverse, len(inverse), len(inverse[0]))'''
+        print_matrix(inverse, len(inverse), len(inverse[0]))
 
         print('\n',"Trace :",'\n')
         matrix_trace(all_matrices[i])
@@ -243,13 +243,13 @@ def matrix_power_n(matrix, n):
 if __name__ == '__main__':
     matrices, num = initialize()
 
-    '''print('\n',"Multiplication :")
+    print('\n',"Multiplication :")
     multiply_result = multiple_matrix_multiply(matrices, num)
     print_matrix(multiply_result, len(multiply_result), len(multiply_result[0]))
 
     print('\n',"Addition :")
     addition_result = multiple_matrix_addition(matrices, num)
-    print_matrix(addition_result, len(addition_result), len(addition_result[0]))'''
+    print_matrix(addition_result, len(addition_result), len(addition_result[0]))
 
 
 '''
