@@ -4,7 +4,7 @@ def initialize():
 
     for i in range(no_of_matrices):
         print('')
-        rows = int(input(f"No. of rows for Matrix {i + 1} : "))
+        rows = int(input(f"No. of rows in Matrix {i + 1} : "))
         cols = int(input(f"No. of columns in Matrix {i + 1} : "))
 
         all_matrices[i] = [[0 for _ in range(cols)] for _ in range(rows)]
@@ -201,7 +201,7 @@ def matrix_trace(matrix):
     trace = 0
     for i in range(len(matrix[0])):
         for j in range(len(matrix)):
-            if i == j :
+            if i == j:
                 trace += matrix[i][j]
 
     print("Trace of given matrix is :", trace)
@@ -243,11 +243,11 @@ def matrix_power_n(matrix, n):
 if __name__ == '__main__':
     matrices, num = initialize()
 
-    print('\n',"Multiplication :")
+    print('\n', "Multiplication :")
     multiply_result = multiple_matrix_multiply(matrices, num)
     print_matrix(multiply_result, len(multiply_result), len(multiply_result[0]))
 
-    print('\n',"Addition :")
+    print('\n', "Addition :")
     addition_result = multiple_matrix_addition(matrices, num)
     print_matrix(addition_result, len(addition_result), len(addition_result[0]))
 
