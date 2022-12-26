@@ -6,6 +6,9 @@ router = APIRouter()
 
 @router.post("/n_th_fibonacci/")
 async def n_th_fibonacci_api(num: int):
+    """
+        :param { num: int }
+    """
     result = n_th_fibonacci(num)
 
     if result is not None:
@@ -17,6 +20,10 @@ async def n_th_fibonacci_api(num: int):
 
 @router.post("/calculate_sum/")
 async def calc_sum_api(num: int):
+    """
+        :param { num: int }
+    """
+
     if num >= 0:
         return {
                 "result": calc_sum(num)
@@ -26,6 +33,10 @@ async def calc_sum_api(num: int):
 
 @router.post("/is_fibonacci_number/")
 async def is_fibonacci_api(num: int):
+    """
+        :param { num: int }
+    """
+
     return {
         "message": "Number is Fibonacci.",
         "result": is_fibonacci(num)
@@ -33,8 +44,12 @@ async def is_fibonacci_api(num: int):
 
 
 @router.post("/is_fibonacci_series/")
-async def is_fib_series_api(list: list):
-    result = is_fib_series(list)
+async def is_fib_series_api(List: list):
+    """
+        :param  List: list
+    """
+
+    result = is_fib_series(List)
 
     if result is not None:
         return {
@@ -46,6 +61,10 @@ async def is_fib_series_api(list: list):
 
 @router.post("/fibonacci_series/")
 async def fib_series_api(num: int):
+    """
+        :param { num: int }
+    """
+
     result = fib_series(num)
 
     if result is not None:

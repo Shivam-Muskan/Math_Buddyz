@@ -99,14 +99,14 @@ def decimal_to_hexadecimal(num):
 
 
 def binary_to_decimal(num_str):
+    if int(num_str) < 0:
+        print("Not a Positive value.")
+        return None, "Invalid input."
+
     for i in range(len(num_str)):
         if num_str[i] != '0' and num_str[i] != '1':
             print("Invalid input. Not a binary number.")
-            return None
-
-    if int(num_str) < 0:
-        print("Not a Positive value.")
-        return None
+            return None, "Not a binary number."
 
     reversed_num_str = num_str[::-1]
     n = len(num_str)
@@ -115,14 +115,18 @@ def binary_to_decimal(num_str):
         decimal_no += int(reversed_num_str[i]) * (2 ** i)
 
     print(f"Decimal number of '{num_str}' : ", decimal_no)
-    return decimal_no
+    return decimal_no, None
 
 
 def binary_to_octal(num_str):
+    if int(num_str) < 0:
+        print("Not a Positive value.")
+        return None, "Invalid input."
+
     for i in range(len(num_str)):
         if num_str[i] != '0' and num_str[i] != '1':
             print("Invalid input. Not a binary number.")
-            return None
+            return None, "Not a binary number."
 
     num = num_str
     n = len(num_str)
@@ -148,14 +152,18 @@ def binary_to_octal(num_str):
         octal_no += str(i)
 
     print(f"Octal number of '{num}' : ", octal_no)
-    return octal_no
+    return octal_no, None
 
 
 def binary_to_hexadecimal(num_str):
+    if int(num_str) < 0:
+        print("Not a Positive value.")
+        return None, "Invalid input."
+
     for i in range(len(num_str)):
         if num_str[i] != '0' and num_str[i] != '1':
             print("Invalid input. Not a binary number.")
-            return None
+            return None, "Not a binary number."
 
     num = num_str
     n = len(num_str)
@@ -189,7 +197,7 @@ def binary_to_hexadecimal(num_str):
             hexadecimal_no = conversion_table[int(hexadecimal_no)]
 
     print(f"Hexadecimal number of '{num}' : ", hexadecimal_no)
-    return hexadecimal_no
+    return hexadecimal_no, None
 
 
 if __name__ == "__main__":

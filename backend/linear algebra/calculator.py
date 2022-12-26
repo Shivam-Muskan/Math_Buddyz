@@ -49,7 +49,7 @@ def is_diagonal(mat):
     return True
 
 
-def is_scalar(mat):
+def is_scaler(mat):
     for i in range(len(mat)):
         for j in range(len(mat)):
             if i != j and mat[i][j] != 0 :
@@ -91,7 +91,7 @@ def matrix_type(mat):
     if is_identity(mat):
         return "This is an Identity Matrix."
 
-    if is_scalar(mat):
+    if is_scaler(mat):
         return "This is a Scaler Matrix."
 
     if is_diagonal(mat):
