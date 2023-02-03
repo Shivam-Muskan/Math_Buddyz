@@ -29,7 +29,8 @@ export const allCalculators: {
 		name: 'Matrix Calculator',
 		route: '/matrix',
 		def: `It's for all type of matrix calculations.`,
-		keywords: 'Adjoint Calculator, Matrix Multiplication, Matrix Addition, Matrix Solver, Matrix Determinant, Matrix Inverse, Matrix Transpose',
+		keywords:
+			'Adjoint Calculator, Matrix Multiplication, Matrix Addition, Matrix Solver, Matrix Determinant, Matrix Inverse, Matrix Transpose',
 		image: 'matrix.webp'
 	},
 	{
