@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from .calculator import matrix_transpose, multiple_matrix_multiply, multiple_matrix_addition, matrix_det, \
+from backend.matrix.calculator import matrix_transpose, multiple_matrix_multiply, multiple_matrix_addition, matrix_det, \
     matrix_inverse, \
     matrix_adjoint, matrix_trace, matrix_power_n
 

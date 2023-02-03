@@ -1,7 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .fibonacci.routes import router as FibonacciRouter
-from .matrix.routes import router as MatrixRouter
+from backend.fibonacci.routes import router as FibonacciRouter
+from backend.matrix.routes import router as MatrixRouter
+from backend.ComputerNumberSystem.routes import router as NumberSystemRouter
+from backend.linearAlgebra.routes import router as AlgebraRouter
+from backend.NumericalMethods.routes import router as NumericalMethodsRouter
+
 
 app = FastAPI()
 
@@ -39,4 +43,6 @@ async def health():
 
 app.include_router(FibonacciRouter)
 app.include_router(MatrixRouter)
-
+app.include_router(NumberSystemRouter)
+app.include_router(AlgebraRouter)
+app.include_router(NumericalMethodsRouter)
