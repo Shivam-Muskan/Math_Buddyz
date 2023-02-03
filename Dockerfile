@@ -5,13 +5,11 @@ FROM python:3.11
 WORKDIR /app
 
 # Copy files
-COPY main.py /app
-COPY requirements.txt /app
-COPY backend /app/backend
+COPY backend /app
 
 # Install dependencies
 RUN pip install -r requirements.txt
 
 # Run the application
 EXPOSE 8080
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8080"]
