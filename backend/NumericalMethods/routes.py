@@ -7,28 +7,31 @@ router = APIRouter()
 
 
 @router.post("/bisection_method/")
-async def bisection_api(p: str = Query(None, description="Enter the polynomial in x"),
-                        a: float = Query(None, description="Enter the lower limit of the interval"),
-                        b: float = Query(None, description="Enter the upper limit of the interval"),
-                        n: int = Query(None, description="Enter the number of iterations"),
-                        err: float = Query(None, description="Enter the tolerance error to find the minimum no of "
-                                                             "iterations required. ")):
+async def bisection_api(p: str = Query(default="x**3-5*x-9", description="Enter the polynomial in x"),
+                        a: float = Query(default=..., description="Enter the lower limit of the interval"),
+                        b: float = Query(default=..., description="Enter the upper limit of the interval"),
+                        n: int = Query(default=0, description="Enter the number of iterations"),
+                        err: float | None = Query(default=None, description="Enter the tolerance error to find the "
+                                                                            "minimum no of iterations required.")):
+
     p = parse_expr(p)
-    result, total = bisection(p, a, b, n, err)
+    result, total, message = bisection(p, a, b, n, err)
+
     if result is not None:
         return {
-            "Roots of the given equation": result,
-            "Min number of iterations required >= ": total
+            "roots": result,
+            "error_iterations": total,
+            "message": message
         }
 
-    return {"error": True, "message": "Cannot be determined."}
+    return {"error": True, "message": message}
 
 
 @router.post("/regula_falsi/")
 async def regula_falsi_api(p: str = Query(None, description="Enter the polynomial in x"),
-                        a: float = Query(None, description="Enter the lower limit of the interval"),
-                        b: float = Query(None, description="Enter the upper limit of the interval"),
-                        n: int = Query(None, description="Enter the number of iterations")):
+                           a: float = Query(None, description="Enter the lower limit of the interval"),
+                           b: float = Query(None, description="Enter the upper limit of the interval"),
+                           n: int = Query(None, description="Enter the number of iterations")):
     p = parse_expr(p)
     result = regula_falsi(p, a, b, n)
     if result is not None:

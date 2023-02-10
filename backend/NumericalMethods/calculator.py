@@ -1,4 +1,5 @@
 from sympy import symbols, Derivative, parse_expr, log
+from math import ceil
 
 
 def f(n, exp):
@@ -12,23 +13,24 @@ def bisection(p, a, b, n, e):
     fa = f(a, p)
     fb = f(b, p)
     roots = {}
+    total = 0
 
-    total = float(log((b - a) / e) / log(2))
-    print(total)
+    if e is not None:
+        total = ceil(float(log((b - a) / e) / log(2)))
+        print(total)
 
     if fa == 0:
         print(f"{a} is the root.")
         roots["Iteration 0"] = a
-        return roots, total
+        return roots, total, f"{a} is the root."
 
     if fb == 0:
         print(f"{b} is the root.")
         roots["Iteration 0"] = b
-        return roots, total
+        return roots, total, f"{b} is the root."
 
     if fa * fb > 0:
-        print("No root lies between the given interval.")
-        return None
+        return None, total, "No root lies between the given interval."
 
     for i in range(n):
         fa = f(a, p)
@@ -48,7 +50,7 @@ def bisection(p, a, b, n, e):
             else:
                 a = x
 
-    return roots, total
+    return roots, total, f"Successfully calculated {n} iterations."
 
 
 def regula_falsi(p, a, b, n):

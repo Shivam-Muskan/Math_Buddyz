@@ -190,7 +190,7 @@
 			return;
 		}
 		matrixAdjoint[matrixKey] = response.result;
-		toast.success('Easier said then done. You got the Inverse');
+		toast.success('Easier said then done. You got the Adjoint');
 		await sleep(100).then(() => scrollToBottom(`Adjoint-${matrixKey}`));
 		disableBtn[matrixKey].adjoint = false;
 	};
