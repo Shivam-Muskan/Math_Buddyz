@@ -61,16 +61,16 @@ def regula_falsi(p, a, b, n):
     if fa == 0:
         print(f"{a} is the root.")
         roots["Iteration 0"] = a
-        return roots
+        return roots, f"{a} is the root."
 
     if fb == 0:
         print(f"{b} is the root.")
         roots["Iteration 0"] = b
-        return roots
+        return roots, f"{b} is the root."
 
     if fa * fb > 0:
         print("No root lies between the given interval.")
-        return None
+        return None, "No root lies between the given interval."
 
     for i in range(n):
         fa = f(a, p)
@@ -91,7 +91,7 @@ def regula_falsi(p, a, b, n):
             else:
                 a = x
 
-    return roots
+    return roots, f"Successfully calculated {n} iterations."
 
 
 def newton_raphson(p, x0, n):
@@ -101,25 +101,27 @@ def newton_raphson(p, x0, n):
     if fx == 0:
         print(f"{x0} is the root of the equation.")
         roots["Iteration 0"] = x0
-        return roots
+        return roots, f"{x0} is the root of the equation."
+
+    x = symbols('x')
+    g = Derivative(p, x).doit()
+    gx = float(f(x0, g))
+    if gx == 0:
+        return None, f"This method is not applicable when f'({x0}) = 0"
 
     for i in range(n):
+        x = x0 - fx / gx
+        print(f"Root after iteration {i + 1} :", float(x))
+        roots[f"Iteration {i + 1}"] = float(x)
+        x0 = x
+
         fx = f(x0, p)
-        x = symbols('x')
-        g = Derivative(p, x).doit()
         gx = float(f(x0, g))
         if gx == 0:
             print("Error! This method is not applicable when f'(x) = 0")
-            x = None
-            break
+            return roots, f"f'({x0}) = 0. Cannot proceed further."
 
-        else:
-            x = x0 - fx / gx
-            print(f"Root after iteration {i + 1} :", x)
-            roots[f"Iteration {i + 1}"] = x
-            x0 = x
-
-    return roots
+    return roots, f"Successfully calculated {n} iterations."
 
 
 def secant(p, a, b, n):
@@ -128,39 +130,37 @@ def secant(p, a, b, n):
 
     if fa == fb:
         print("Error! This method is not applicable here as f(a) = f(b).")
-        return None
+        return None, f"This method is not applicable when f({a}) = f({b})"
 
     roots = {}
     for i in range(n):
         x = b - ((a - b) / (fa - fb)) * fb
-        print(f"Root after iteration {i + 1} :", x)
-        roots[f"Iteration {i + 1}"] = x
+        print(f"Root after iteration {i + 1} :", float(x))
+        roots[f"Iteration {i + 1}"] = float(x)
         a = b
         b = x
         fa = f(a, p)
         fb = f(b, p)
 
-    return roots
+    return roots, f"Successfully calculated {n} iterations."
 
 
 def fixed_point_iteration(p, x0, n):
     x = symbols('x')
     g = Derivative(p, x).doit()
-    gx = float(f(x0, g))
+    gx = f(x0, g)
     roots = {}
 
+    if abs(gx) >= 1:
+        return None, f"Condition |g'({x0})| < 1 fails."
+
     for i in range(n):
-        if abs(gx) < 1:
-            x = f(x0, p)
-            print(f"Root after iteration {i + 1} :", float(x))
-            roots[f"Iteration {i + 1}"] = float(x)
-            x0 = x
+        x = f(x0, p)
+        print(f"Root after iteration {i + 1} :", float(x))
+        roots[f"Iteration {i + 1}"] = float(x)
+        x0 = x
 
-        else:
-            print("Condition |g'(x0)| < 1 fails.")
-            return None
-
-    return roots
+    return roots, f"Successfully calculated {n} iterations."
 
 
 if __name__ == '__main__':

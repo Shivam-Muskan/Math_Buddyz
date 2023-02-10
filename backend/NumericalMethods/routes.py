@@ -8,12 +8,11 @@ router = APIRouter()
 
 @router.post("/bisection_method/")
 async def bisection_api(p: str = Query(default="x**3-5*x-9", description="Enter the polynomial in x"),
-                        a: float = Query(default=..., description="Enter the lower limit of the interval"),
-                        b: float = Query(default=..., description="Enter the upper limit of the interval"),
+                        a: float = Query(default=2, description="Enter the lower limit of the interval"),
+                        b: float = Query(default=3, description="Enter the upper limit of the interval"),
                         n: int = Query(default=0, description="Enter the number of iterations"),
                         err: float | None = Query(default=None, description="Enter the tolerance error to find the "
                                                                             "minimum no of iterations required.")):
-
     p = parse_expr(p)
     result, total, message = bisection(p, a, b, n, err)
 
@@ -28,63 +27,65 @@ async def bisection_api(p: str = Query(default="x**3-5*x-9", description="Enter 
 
 
 @router.post("/regula_falsi/")
-async def regula_falsi_api(p: str = Query(None, description="Enter the polynomial in x"),
-                           a: float = Query(None, description="Enter the lower limit of the interval"),
-                           b: float = Query(None, description="Enter the upper limit of the interval"),
-                           n: int = Query(None, description="Enter the number of iterations")):
+async def regula_falsi_api(p: str = Query("x**3-5*x-9", description="Enter the polynomial in x"),
+                           a: float = Query(2, description="Enter the lower limit of the interval"),
+                           b: float = Query(3, description="Enter the upper limit of the interval"),
+                           n: int = Query(0, description="Enter the number of iterations")):
     p = parse_expr(p)
-    result = regula_falsi(p, a, b, n)
+    result, message = regula_falsi(p, a, b, n)
     if result is not None:
         return {
-            "message": "Roots of the given equation:",
-            "result": result
+            "roots": result,
+            "message": message
         }
 
-    return {"error": True, "message": "Cannot be determined."}
+    return {"error": True, "message": message}
 
 
 @router.post("/newton_raphson/")
-async def newton_raphson_api(p: str = Query(None, description="Enter the polynomial in x"),
-                             x0: float = Query(None, description="Enter the value of x0"),
-                             n: int = Query(None, description="Enter the number of iterations")):
+async def newton_raphson_api(p: str = Query("x**3-5*x-9", description="Enter the polynomial in x"),
+                             x0: float = Query(2, description="Enter the value of x0"),
+                             n: int = Query(0, description="Enter the number of iterations")):
     p = parse_expr(p)
-    result = newton_raphson(p, x0, n)
+    result, message = newton_raphson(p, x0, n)
     if result is not None:
         return {
-            "message": "Roots of the given equation:",
-            "result": result
+            "roots": result,
+            "message": message
         }
 
-    return {"error": True, "message": "Cannot be determined."}
+    return {"error": True, "message": message}
 
 
 @router.post("/secant/")
-async def secant_api(p: str = Query(None, description="Enter the polynomial in x"),
-                     a: float = Query(None, description="Enter the lower limit of the interval"),
-                     b: float = Query(None, description="Enter the upper limit of the interval"),
-                     n: int = Query(None, description="Enter the number of iterations")):
+async def secant_api(p: str = Query("x**3-5*x-9", description="Enter the polynomial in x"),
+                     a: float = Query(2, description="Enter the lower limit of the interval"),
+                     b: float = Query(3, description="Enter the upper limit of the interval"),
+                     n: int = Query(0, description="Enter the number of iterations")):
     p = parse_expr(p)
-    result = secant(p, a, b, n)
+    result, message = secant(p, a, b, n)
     if result is not None:
         return {
-            "message": "Roots of the given equation:",
-            "result": result
+            "result": result,
+            "message": message
         }
 
-    return {"error": True, "message": "Cannot be determined."}
+    return {"error": True, "message": message}
 
 
 @router.post("/fixed_point_iteration/")
-async def fixed_point_iteration_api(p: str = Query(None, description="Enter the polynomial in x, g(x) such that x = "
-                                                                     "g(x) from the given equation"),
-                                    x0: float = Query(None, description="Enter x0 such that  |g’(x)| < 1"),
-                                    n: int = Query(None, description="Enter the number of iterations")):
+async def fixed_point_iteration_api(
+        p: str = Query("cbrt((2*x + 5)/2)", description="Enter the polynomial in x, g(x) such that x = "
+                                                        "g(x) from the given equation"),
+        x0: float = Query(1.5, description="Enter x0 such that  |g’(x)| < 1"),
+        n: int = Query(0, description="Enter the number of iterations")):
+
     p = parse_expr(p)
-    result = fixed_point_iteration(p, x0, n)
+    result, message = fixed_point_iteration(p, x0, n)
     if result is not None:
         return {
-            "message": "Roots of the given equation:",
-            "result": result
+            "roots": result,
+            "message": message
         }
 
-    return {"error": True, "message": "Cannot be determined."}
+    return {"error": True, "message": message}
