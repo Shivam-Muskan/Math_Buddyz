@@ -1,4 +1,4 @@
-from sympy import symbols, Derivative, parse_expr, log
+from sympy import symbols, Derivative, parse_expr, log, Float, Mul
 from math import ceil
 
 
@@ -18,6 +18,12 @@ def bisection(p, a, b, n, e):
     if e is not None:
         total = ceil(float(log((b - a) / e) / log(2)))
         print(total)
+
+    if type(fa) == Mul:
+        return None, f"{fa} is becoming a complex number. Cannot proceed further."
+
+    if type(fb) == Mul:
+        return None, f"{fb} is becoming a complex number. Cannot proceed further."
 
     if fa == 0:
         print(f"{a} is the root.")
@@ -39,16 +45,18 @@ def bisection(p, a, b, n, e):
         roots[f"Iteration {i + 1}"] = x
         fx = f(x, p)
 
+        if type(fx) == Mul:
+            return None, f"{fx} is becoming a complex number. Cannot proceed further."
+
         if fx == 0:
             print(f"{x} is the root for the given polynomial.")
-            break
+            return roots, total, f"{x} is the root for the given polynomial."
+
+        if fa * fx < 0:
+            b = x
 
         else:
-            if fa * fx < 0:
-                b = x
-
-            else:
-                a = x
+            a = x
 
     return roots, total, f"Successfully calculated {n} iterations."
 
@@ -57,6 +65,12 @@ def regula_falsi(p, a, b, n):
     fa = f(a, p)
     fb = f(b, p)
     roots = {}
+
+    if type(fa) == Mul:
+        return None, f"{fa} is becoming a complex number. Cannot proceed further."
+
+    if type(fb) == Mul:
+        return None, f"{fb} is becoming a complex number. Cannot proceed further."
 
     if fa == 0:
         print(f"{a} is the root.")
@@ -80,16 +94,18 @@ def regula_falsi(p, a, b, n):
         roots[f"Iteration {i + 1}"] = float(x)
         fx = f(x, p)
 
+        if type(fx) == Mul:
+            return None, f"{fx} is becoming a complex number. Cannot proceed further."
+
         if fx == 0:
             print(f"{x} is the root for the given polynomial.")
-            break
+            return roots, f"{x} is the root for the given polynomial."
+
+        if fa * fx < 0:
+            b = x
 
         else:
-            if fa * fx < 0:
-                b = x
-
-            else:
-                a = x
+            a = x
 
     return roots, f"Successfully calculated {n} iterations."
 
@@ -97,6 +113,9 @@ def regula_falsi(p, a, b, n):
 def newton_raphson(p, x0, n):
     fx = f(x0, p)
     roots = {}
+
+    if type(fx) == Mul:
+        return None, f"{fx} is becoming a complex number. Cannot proceed further."
 
     if fx == 0:
         print(f"{x0} is the root of the equation.")
@@ -106,6 +125,10 @@ def newton_raphson(p, x0, n):
     x = symbols('x')
     g = Derivative(p, x).doit()
     gx = float(f(x0, g))
+
+    if type(gx) == Mul:
+        return None, f"{gx} is becoming a complex number. Cannot proceed further."
+
     if gx == 0:
         return None, f"This method is not applicable when f'({x0}) = 0"
 
@@ -117,6 +140,13 @@ def newton_raphson(p, x0, n):
 
         fx = f(x0, p)
         gx = float(f(x0, g))
+
+        if type(fx) == Mul:
+            return None, f"{fx} is becoming a complex number. Cannot proceed further."
+
+        if type(gx) == Mul:
+            return None, f"{gx} is becoming a complex number. Cannot proceed further."
+
         if gx == 0:
             print("Error! This method is not applicable when f'(x) = 0")
             return roots, f"f'({x0}) = 0. Cannot proceed further."
@@ -128,6 +158,12 @@ def secant(p, a, b, n):
     fa = f(a, p)
     fb = f(b, p)
 
+    if type(fa) == Mul:
+        return None, f"{fa} is becoming a complex number. Cannot proceed further."
+
+    if type(fb) == Mul:
+        return None, f"{fb} is becoming a complex number. Cannot proceed further."
+
     if fa == fb:
         print("Error! This method is not applicable here as f(a) = f(b).")
         return None, f"This method is not applicable when f({a}) = f({b})"
@@ -135,12 +171,19 @@ def secant(p, a, b, n):
     roots = {}
     for i in range(n):
         x = b - ((a - b) / (fa - fb)) * fb
+
         print(f"Root after iteration {i + 1} :", float(x))
         roots[f"Iteration {i + 1}"] = float(x)
         a = b
         b = x
         fa = f(a, p)
         fb = f(b, p)
+
+        if type(fa) == Mul:
+            return None, f"{fa} is becoming a complex number. Cannot proceed further."
+
+        if type(fb) == Mul:
+            return None, f"{fb} is becoming a complex number. Cannot proceed further."
 
     return roots, f"Successfully calculated {n} iterations."
 
@@ -151,11 +194,18 @@ def fixed_point_iteration(p, x0, n):
     gx = f(x0, g)
     roots = {}
 
+    if type(gx) == Mul:
+        return None, f"g'({x0}) is becoming a complex number. Cannot proceed further."
+
     if abs(gx) >= 1:
         return None, f"Condition |g'({x0})| < 1 fails."
 
     for i in range(n):
         x = f(x0, p)
+
+        if type(x) == Mul:
+            return None, f"f({x0}) is becoming a complex number. Cannot proceed further."
+
         print(f"Root after iteration {i + 1} :", float(x))
         roots[f"Iteration {i + 1}"] = float(x)
         x0 = x

@@ -77,7 +77,7 @@ async def secant_api(p: str = Query("x**3-5*x-9", description="Enter the polynom
 async def fixed_point_iteration_api(
         p: str = Query("cbrt((2*x + 5)/2)", description="Enter the polynomial in x, g(x) such that x = "
                                                         "g(x) from the given equation"),
-        x0: float = Query(1.5, description="Enter x0 such that  |g’(x)| < 1"),
+        x0: float = Query(1.5, description="Enter x0 such that  |g’(x0)| < 1"),
         n: int = Query(0, description="Enter the number of iterations")):
 
     p = parse_expr(p)
