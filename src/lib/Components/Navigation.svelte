@@ -1,3 +1,7 @@
+<script>
+	import { PUBLIC_BASE_API } from '$env/static/public';
+</script>
+
 <header class="relative py-4 md:py-6">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="relative flex items-center justify-between">
@@ -58,7 +62,7 @@
 
 				<a
 					data-sveltekit-preload-data="hover"
-					href="https://math-buddyz-python.vercel.app/docs"
+					href="{PUBLIC_BASE_API}/docs"
 					target="_blank"
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
 				>
