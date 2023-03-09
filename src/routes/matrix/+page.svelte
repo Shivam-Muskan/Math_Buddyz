@@ -117,9 +117,11 @@
 		if ('' === event.target.value) return;
 		const matrixDict = matrices[matrixKey];
 		let newColumns = parseInt(event.target.value);
+		console.log(newColumns, event.target.value, matrixDict.matrix[0].length);
 		if (matrixDict.matrix[0].length < newColumns) {
+			const valuesToBeAdded = newColumns - matrixDict.matrix[0].length;
+			const newColumnsData = new Array(valuesToBeAdded).fill(0);
 			for (let i = 0; i < matrixDict.rows; i++) {
-				const newColumnsData = new Array(newColumns).fill(0);
 				matrixDict.matrix[i].push(...newColumnsData);
 			}
 		} else if (matrixDict.matrix[0].length > newColumns) {
@@ -153,7 +155,9 @@
 	const determinant = async (matrixKey) => {
 		disableBtn[matrixKey].determinant = true;
 		const currentMatrixDict = matrices[matrixKey];
+		console.log(currentMatrixDict);
 		const response = await API.post('/matrix_determinant/', { matrix: currentMatrixDict.matrix });
+		console.log( response );
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].determinant = false;
