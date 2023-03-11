@@ -1,24 +1,14 @@
 from math import sqrt
 
 
-# Function for nth fibonacci number
+# Function for nth fibonacci number(Fn)
 def n_th_fibonacci(n):
-    if n <= 0:
-        print("Incorrect input")
-        return None
-
-    # if n == 1:
-    #     return 0
-    #
-    # if n == 2:
-    #     return 1
-
-    # return n_th_fibonacci(n - 1) + n_th_fibonacci(n - 2)
     res = (((1 + sqrt(5)) ** n) - (1 - sqrt(5)) ** n) / (2 ** n * sqrt(5))
+    res = round(res)
     return res
 
 
-# Find Fibonacci Series of a number
+# Find Fibonacci Series of first 'n' numbers
 def fib_series(n):
     series = []
     if n <= 0:
@@ -44,6 +34,9 @@ def fib_series(n):
 
 # sum of Fibonacci Numbers
 def calc_sum(n):
+    if n < 0:
+        print("Invalid Input")
+
     sum = 0
     for i in range(1, n + 1):
         sum = sum + n_th_fibonacci(i)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from .calculator import is_upper_triangular, is_lower_triangular, is_diagonal, is_scaler, is_identity, is_null, \
-    matrix_type
+    is_square,matrix_type
 
 router = APIRouter()
 
@@ -40,6 +40,25 @@ async def is_lower_triangular_api(MatrixDict: dict):
         return {
             "message": "Matrix is Lower Triangular.",
             "result": is_lower_triangular(MatrixDict["matrix"])
+        }
+    return {"error": True, "message": "Invalid Matrix"}
+
+
+@router.post("/is_square/")
+async def is_square_api(MatrixDict: dict):
+    """
+    :param MatrixDict: {
+        "matrix": [Nested Array]
+    }
+    """
+
+    if 'matrix' not in MatrixDict.keys():
+        return {"error": True, "message": "Matrix not Defined."}
+
+    if len(MatrixDict["matrix"]) != 0:
+        return {
+            "message": "This is Square Matrix.",
+            "result": is_square(MatrixDict["matrix"])
         }
     return {"error": True, "message": "Invalid Matrix"}
 

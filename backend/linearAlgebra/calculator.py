@@ -41,6 +41,12 @@ def is_lower_triangular(mat):
     return True
 
 
+def is_square(mat):
+    if len(mat) != len(mat[0]):
+        return False
+    return True
+
+
 def is_diagonal(mat):
     for i in range(len(mat)):
         for j in range(len(mat)):
@@ -87,6 +93,9 @@ def is_null(mat):
 def matrix_type(mat):
     if is_null(mat):
         return "This is a Null Matrix."
+
+    if is_square(mat):
+        return "This is a square matrix."
 
     if is_identity(mat):
         return "This is an Identity Matrix."
