@@ -41,14 +41,14 @@ export const allCalculators: {
 		keywords: '',
 		image: 'fibonacci.webp'
 	},
-	{
-		id: 4,
-		name: 'Linear Algebra Calculator',
-		route: '/linearAlgebra',
-		def: `It's for all type of linear algebra calculations. Here you can calculate many things related to linear number system.`,
-		keywords: '',
-		image: 'linear.webp'
-	},
+	// {
+	// 	id: 4,
+	// 	name: 'Linear Algebra Calculator',
+	// 	route: '/linearAlgebra',
+	// 	def: `It's for all type of linear algebra calculations. Here you can calculate many things related to linear number system.`,
+	// 	keywords: '',
+	// 	image: 'linear.webp'
+	// },
 	{
 		id: 5,
 		name: 'Numerical Analysis',
