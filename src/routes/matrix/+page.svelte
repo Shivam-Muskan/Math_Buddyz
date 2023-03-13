@@ -75,15 +75,15 @@
 		Z: 'empty'
 	};
 
-	async function getRndInteger(min, max) {
-		return Math.floor(Math.random() * (max - min) ) + min;
+	async function getRndInteger() {
+		return Math.floor(Math.random() * (1 - 100) ) + 1;
 	}
 
 	const newMatrix = async (preDefinedMatrix) => {
 		let newMatrixValue = [
-			[await getRndInteger(1, 5), await getRndInteger(10, 23), await getRndInteger(2, 9)],
-			[await getRndInteger(2, 6), await getRndInteger(13, 26), await getRndInteger(3, 8)],
-			[await getRndInteger(3, 7), await getRndInteger(16, 29), await getRndInteger(2, 9)]
+			[await getRndInteger(), await getRndInteger(), await getRndInteger()],
+			[await getRndInteger(), await getRndInteger(), await getRndInteger()],
+			[await getRndInteger(), await getRndInteger(), await getRndInteger()]
 		];
 		if (preDefinedMatrix.length) {
 			newMatrixValue = preDefinedMatrix;
