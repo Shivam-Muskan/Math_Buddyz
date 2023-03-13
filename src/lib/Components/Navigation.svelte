@@ -43,7 +43,7 @@
 				class="hidden lg:absolute lg:inset-y-0 lg:left-1/2 lg:flex lg:-translate-x-1/2 lg:items-center lg:justify-center lg:space-x-12"
 			>
 				<a
-					href="/"
+					href="https://linkedin.com/in/muskan8940/"
 					target="_blank"
 					rel="noreferrer"
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
@@ -52,7 +52,7 @@
 				</a>
 
 				<a
-					href="shivam.pdf"
+					href="https://linkedin.com/in/theether0/"
 					target="_blank"
 					rel="noreferrer"
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
