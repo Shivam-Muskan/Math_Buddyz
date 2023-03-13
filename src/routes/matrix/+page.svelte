@@ -22,16 +22,28 @@
 	let matrixAdjoint: Record<string, []> = {};
 	let advancedCalculator: Record<string, unknown> = {
 		addition: {
+			name: 'Multiple Matrix Addition',
+			description: 'Provide matrix name with comma e.g. A, B, C',
 			inputValue: '',
 			disabled: false,
 			error: null,
 			answer: []
 		},
 		multiplication: {
+			name: 'Multiple Matrix Multiplication',
+			description: 'Provide matrix name with comma e.g. A, B, C',
 			inputValue: '',
 			disabled: false,
 			error: null,
 			answer: []
+		},
+		type: {
+			name: 'Find Matrix Type (Valid for Single Matrix)',
+			description: 'Provide a matrix name to find type of a matrix e.g. scalar, square',
+			inputValue: '',
+			disabled: false,
+			error: null,
+			answer: null
 		}
 	};
 
@@ -63,11 +75,15 @@
 		Z: 'empty'
 	};
 
+	async function getRndInteger(min, max) {
+		return Math.floor(Math.random() * (max - min) ) + min;
+	}
+
 	const newMatrix = async (preDefinedMatrix) => {
 		let newMatrixValue = [
-			[2, 3, 5],
-			[9, 8, 7],
-			[4, 5, 6]
+			[await getRndInteger(1, 5), await getRndInteger(10, 23), await getRndInteger(2, 9)],
+			[await getRndInteger(2, 6), await getRndInteger(13, 26), await getRndInteger(3, 8)],
+			[await getRndInteger(3, 7), await getRndInteger(16, 29), await getRndInteger(2, 9)]
 		];
 		if (preDefinedMatrix.length) {
 			newMatrixValue = preDefinedMatrix;
@@ -157,7 +173,7 @@
 		const currentMatrixDict = matrices[matrixKey];
 		console.log(currentMatrixDict);
 		const response = await API.post('/matrix_determinant/', { matrix: currentMatrixDict.matrix });
-		console.log( response );
+		console.log(response);
 		if (response.error) {
 			toast.error(response.message);
 			disableBtn[matrixKey].determinant = false;
@@ -237,7 +253,7 @@
 	const handleCalculations = async (calculatorKey) => {
 		advancedCalculator[calculatorKey].disabled = true;
 		const currentWorkingMatrices = advancedCalculator[calculatorKey].inputValue.split(',');
-		if (currentWorkingMatrices.length < 2) {
+		if (calculatorKey !== 'type' && currentWorkingMatrices.length < 2) {
 			toast.error(`Please provide two or more matrices`);
 			advancedCalculator[
 				calculatorKey
@@ -278,7 +294,7 @@
 			}
 		}
 
-		const response = await API.post(`/matrix_${calculatorKey}`, { matrix: finalMatrixCollection });
+		const response = await API.post(`/matrix_${calculatorKey}/`, { matrix: finalMatrixCollection });
 		if (response.error) {
 			toast.error(response.message);
 			advancedCalculator[calculatorKey].disabled = false;
@@ -902,7 +918,7 @@
 			<div class="mx-auto max-w-xl">
 				<div>
 					<label for="additionText" class="text-sm font-medium capitalize text-gray-900"
-						>Multiple Matrix {calculator}</label
+						>{advancedCalculator[calculator].name}</label
 					>
 					<div class="relative">
 						<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -913,7 +929,7 @@
 							id="additionText"
 							bind:value={advancedCalculator[calculator].inputValue}
 							class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-							placeholder="Provide matrix name with comma e.g. A, B, C"
+							placeholder={advancedCalculator[calculator].description}
 							required
 						/>
 						<button
@@ -929,7 +945,7 @@
 							{advancedCalculator[calculator].error}
 						</p>
 					{/if}
-					{#if advancedCalculator[calculator].answer.length > 0}
+					{#if calculator !== 'type' && advancedCalculator[calculator].answer.length > 0}
 						<div
 							id="New-{calculator}"
 							class="mt-4 flex flex-col items-center justify-center "
@@ -967,6 +983,18 @@
 								matrix={advancedCalculator[calculator].answer}
 								bg="bg-blue-500"
 							/>
+						</div>
+						{:else if calculator === 'type' && advancedCalculator[calculator].answer !== null }
+						<div class="flex rounded-md bg-indigo-50 p-4 text-sm text-indigo-500 mt-4">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="mr-3 h-5 w-5 flex-shrink-0">
+								<path fill-rule="evenodd" d="M19 10.5a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zM8.25 9.75A.75.75 0 019 9h.253a1.75 1.75 0 011.709 2.13l-.46 2.066a.25.25 0 00.245.304H11a.75.75 0 010 1.5h-.253a1.75 1.75 0 01-1.709-2.13l.46-2.066a.25.25 0 00-.245-.304H9a.75.75 0 01-.75-.75zM10 7a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+							</svg>
+							<div>
+								<h4 class="font-bold">Matrix Type</h4>
+								<div class="mt-1">
+									<p>{advancedCalculator[calculator].answer}</p>
+								</div>
+							</div>
 						</div>
 					{/if}
 				</div>

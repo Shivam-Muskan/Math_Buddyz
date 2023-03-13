@@ -18,7 +18,7 @@ export const allCalculators: {
 	},
 	{
 		id: 1,
-		name: 'CNS Calculator',
+		name: 'Binary Calculator',
 		route: '/binary',
 		def: `It's for all type of computer number system calculations.`,
 		keywords: '',
