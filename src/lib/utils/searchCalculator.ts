@@ -48,10 +48,18 @@ export const allCalculators: {
 		def: `It's for all type of linear algebra calculations. Here you can calculate many things related to linear number system.`,
 		keywords: '',
 		image: 'linear.webp'
+	},
+	{
+		id: 5,
+		name: 'Numerical Analysis',
+		route: '/numerical-analysis',
+		def: `It's for all type of numerical analysis calculations. Here you can calculate many things related to numerical analysis.`,
+		keywords: '',
+		image: 'Numerical.webp'
 	}
 ];
 
-export let miniSearch = new MiniSearch({
+export const miniSearch = new MiniSearch({
 	fields: ['name', 'def', 'keywords'], // fields to index for full-text search
 	storeFields: ['name', 'route', 'image', 'def'], // fields to return with search results
 	searchOptions: {
