@@ -7,7 +7,7 @@
 	// by default Drawer opens from right. Make left-0 for left opening
 	export let placement = 'right-0';
 	// max size of content section
-	export let maxScreenSize = 'max-w-lg';
+	export let maxScreenSize = 'max-w-xl';
 
 	const handleClickAway = () => {
 		dispatch('clickAway');
@@ -40,7 +40,7 @@
 			role="presentation"
 		/>
 		<div
-			class="absolute {placement} top-0 h-full overflow-y-auto rounded rounded-tl-lg bg-white shadow-xl transition-all duration-500 ease-in-out {maxScreenSize} {isOpen
+			class="absolute {placement} top-0 h-full overflow-y-auto rounded rounded-tl-lg bg-white shadow-xl transition-all duration-500 ease-in-out pb-5 {maxScreenSize} {isOpen
 				? 'w-screen'
 				: 'w-0'}"
 		>
