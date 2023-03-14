@@ -6,8 +6,9 @@ from .calculator import is_upper_triangular, is_lower_triangular, is_diagonal, i
 router = APIRouter()
 
 
-@router.post("/is_upper_triangular/")
-async def is_upper_triangular_api(MatrixDict: dict):
+
+@router.post("/matrix_type/")
+async def matrix_type_api(MatrixDict: dict):
     """
     :param MatrixDict: {
         "matrix": [Nested Array]
@@ -19,9 +20,35 @@ async def is_upper_triangular_api(MatrixDict: dict):
 
     if len(MatrixDict["matrix"]) != 0:
         return {
-            "message": "Matrix is Upper Triangular.",
-            "result": is_upper_triangular(MatrixDict["matrix"])
+            "result": matrix_type(MatrixDict["matrix"])
         }
+    return {"error": True, "message": "Invalid Matrix"}
+
+
+
+
+
+'''
+@router.post("/is_upper_triangular/")
+async def is_upper_triangular_api(MatrixDict: dict):
+    """
+    :param MatrixDict: {
+        "matrix": [Nested Array]
+    }
+    """
+
+    if 'matrix' not in MatrixDict.keys():
+        return {"error": True, "message": "Matrix not Defined."}
+    
+    result = is_upper_triangular(MatrixDict["matrix"])
+
+    if len(MatrixDict["matrix"]) != 0:
+        if result is not None:
+            return {
+                "message": "Matrix is Upper Triangular.",
+                "result": result
+            }
+        return {"error":True, "message":"This is not a square matrix."}
     return {"error": True, "message": "Invalid Matrix"}
 
 
@@ -138,20 +165,5 @@ async def is_null_api(MatrixDict: dict):
         }
     return {"error": True, "message": "Invalid Matrix"}
 
+'''
 
-@router.post("/matrix_type/")
-async def matrix_type_api(MatrixDict: dict):
-    """
-    :param MatrixDict: {
-        "matrix": [Nested Array]
-    }
-    """
-
-    if 'matrix' not in MatrixDict.keys():
-        return {"error": True, "message": "Matrix not Defined."}
-
-    if len(MatrixDict["matrix"]) != 0:
-        return {
-            "result": matrix_type(MatrixDict["matrix"])
-        }
-    return {"error": True, "message": "Invalid Matrix"}

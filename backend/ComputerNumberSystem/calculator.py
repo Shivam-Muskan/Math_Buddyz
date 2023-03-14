@@ -24,7 +24,7 @@ def decimal_to_binary(num):
 
     binary_no = int(binary_str)
 
-    print(f"Binary number of '{num}' : ",binary_no)
+    print(f"Binary number of '{num}' : ", binary_no)
     return binary_no
 
 
@@ -101,10 +101,11 @@ def decimal_to_hexadecimal(num):
 def binary_to_decimal(num_str):
     if int(num_str) < 0:
         print("Not a Positive value.")
-        return None, "Invalid input."
+        return None, "Not a Positive value."
 
+    possibilities = ['0', '1']
     for i in range(len(num_str)):
-        if num_str[i] != '0' and num_str[i] != '1':
+        if num_str[i] not in possibilities:
             print("Invalid input. Not a binary number.")
             return None, "Not a binary number."
 
@@ -121,10 +122,11 @@ def binary_to_decimal(num_str):
 def binary_to_octal(num_str):
     if int(num_str) < 0:
         print("Not a Positive value.")
-        return None, "Invalid input."
+        return None, "Not a Positive value."
 
+    possibilities = ['0', '1']
     for i in range(len(num_str)):
-        if num_str[i] != '0' and num_str[i] != '1':
+        if num_str[i] not in possibilities:
             print("Invalid input. Not a binary number.")
             return None, "Not a binary number."
 
@@ -140,10 +142,10 @@ def binary_to_octal(num_str):
     dic = {}
     result = []
     for i in range(pairs):
-        dic[i+1] = num_str[3*i : 3*i+3]
-        n = n-3
+        dic[i + 1] = num_str[3 * i: 3 * i + 3]
+        n = n - 3
 
-        value = int(dic[i+1][0])*1 + int(dic[i+1][1])*2 + int(dic[i+1][2])*4
+        value = int(dic[i + 1][0]) * 1 + int(dic[i + 1][1]) * 2 + int(dic[i + 1][2]) * 4
         result.append(value)
 
     result.reverse()
@@ -158,10 +160,11 @@ def binary_to_octal(num_str):
 def binary_to_hexadecimal(num_str):
     if int(num_str) < 0:
         print("Not a Positive value.")
-        return None, "Invalid input."
+        return None, "Not a Positive value."
 
+    possibilities = ['0', '1']
     for i in range(len(num_str)):
-        if num_str[i] != '0' and num_str[i] != '1':
+        if num_str[i] not in possibilities:
             print("Invalid input. Not a binary number.")
             return None, "Not a binary number."
 
@@ -177,10 +180,10 @@ def binary_to_hexadecimal(num_str):
     dic = {}
     result = []
     for i in range(pairs):
-        dic[i+1] = num_str[4*i : 4*i+4]
-        n = n-4
+        dic[i + 1] = num_str[4 * i: 4 * i + 4]
+        n = n - 4
 
-        value = int(dic[i+1][0])*1 + int(dic[i+1][1])*2 + int(dic[i+1][2])*4 + int(dic[i+1][3])*8
+        value = int(dic[i + 1][0]) * 1 + int(dic[i + 1][1]) * 2 + int(dic[i + 1][2]) * 4 + int(dic[i + 1][3]) * 8
         if 9 < value < 16:
             conversion_table = {10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
             value = conversion_table[value]
@@ -200,7 +203,171 @@ def binary_to_hexadecimal(num_str):
     return hexadecimal_no, None
 
 
+def octal_to_decimal(num_str):
+    if int(num_str) < 0:
+        print("Not a Positive value.")
+        return None, "Not a Positive value."
+
+    possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
+    for i in range(len(num_str)):
+        if num_str[i] not in possibilities:
+            print("Invalid input. Not an octal number.")
+            return None, "Not an octal number."
+
+    reversed_num_str = num_str[::-1]
+    n = len(num_str)
+    decimal_no = 0
+    for i in range(n):
+        decimal_no += int(reversed_num_str[i]) * (8 ** i)
+
+    print(f"Decimal number of '{num_str}' : ", decimal_no)
+    return decimal_no, None
+
+
+def octal_to_binary(num_str):
+    if int(num_str) < 0:
+        print("Not a Positive value.")
+        return None, "Not a Positive value."
+
+    possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
+    for i in range(len(num_str)):
+        if num_str[i] not in possibilities:
+            print("Invalid input. Not an octal number.")
+            return None, "Not an octal number."
+
+    result = ''
+    n = len(num_str)
+
+    for i in range(n):
+        binary_no = decimal_to_binary(int(num_str[i]))
+        binary_str = str(binary_no)
+
+        if len(binary_str) == 3:
+            result = result + binary_str
+
+        if len(binary_str) == 2:
+            binary_str = '0' + binary_str
+            result = result + binary_str
+
+        if len(binary_str) == 1:
+            binary_str = '00' + binary_str
+            result = result + binary_str
+
+    print(f"Binary number of '{num_str}' : ", result)
+    return result, None
+
+
+def octal_to_hexadecimal(num_str):
+    if int(num_str) < 0:
+        print("Not a Positive value.")
+        return None, "Not a Positive value."
+
+    possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
+    for i in range(len(num_str)):
+        if num_str[i] not in possibilities:
+            print("Invalid input. Not an octal number.")
+            return None, "Not an octal number."
+
+    result, error = octal_to_binary(num_str)
+    binary_no = int(result)
+    hexadecimal_no, error = binary_to_hexadecimal(str(binary_no))
+
+    print(f"Hexadecimal number of '{num_str}' : ", hexadecimal_no)
+    return hexadecimal_no, None
+
+
+def hexadecimal_to_decimal(num_str):
+    for i in range(len(num_str)):
+        possibilities = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+        if num_str[i] not in possibilities:
+            print("Invalid input. Not a hexadecimal number.")
+            return None, "Not a hexadecimal number."
+
+    if num_str.isnumeric():
+        num = int(num_str)
+
+        if num < 0:
+            print("Not a Positive value.")
+            return None, "Not a Positive value."
+
+        if num < 10:
+            print(f"Decimal number of '{num}' : ", num)
+            return num, None
+
+    conversion_table = {10: 'A', 11: 'B', 12: 'C', 13: 'D', 14: 'E', 15: 'F'}
+
+    for i in range(10, 16):
+        if num_str == conversion_table[i]:
+            print(f"Decimal number of '{num_str}' : ", i)
+            return i, None
+
+    reversed_num_str = num_str[::-1]
+    n = len(num_str)
+    decimal_no = 0
+    for i in range(n):
+
+        if reversed_num_str[i].isnumeric():
+            decimal_no += int(reversed_num_str[i]) * (16 ** i)
+
+        else:
+            conversion_table_1 = {'A': 10, 'B': 11, 'C': 12, 'D': 13, 'E': 14, 'F': 15}
+            decimal_no += conversion_table_1[reversed_num_str[i]] * (16 ** i)
+
+    print(f"Decimal number of '{num_str}' : ", decimal_no)
+    return decimal_no, None
+
+
+def hexadecimal_to_binary(num_str):
+    for i in range(len(num_str)):
+        possibilities = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+        if num_str[i] not in possibilities:
+            print("Invalid input. Not a hexadecimal number.")
+            return None, "Not a hexadecimal number."
+
+    result = ''
+    n = len(num_str)
+
+    for i in range(n):
+        decimal_no, error = hexadecimal_to_decimal(num_str[i])
+        binary_no = decimal_to_binary(decimal_no)
+        binary_str = str(binary_no)
+
+        if len(binary_str) == 4:
+            result = result + binary_str
+
+        if len(binary_str) == 3:
+            binary_str = '0' + binary_str
+            result = result + binary_str
+
+        if len(binary_str) == 2:
+            binary_str = '00' + binary_str
+            result = result + binary_str
+
+        if len(binary_str) == 1:
+            binary_str = '000' + binary_str
+            result = result + binary_str
+
+    print(f"Binary number of '{num_str}' : ", result)
+    return result, None
+
+
+def hexadecimal_to_octal(num_str):
+    for i in range(len(num_str)):
+        possibilities = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+        if num_str[i] not in possibilities:
+            print("Invalid input. Not a hexadecimal number.")
+            return None, "Not a hexadecimal number."
+
+    result, error = hexadecimal_to_binary(num_str)
+    binary_no = int(result)
+    octal_no, error = binary_to_octal(str(binary_no))
+
+    print(f"Hexadecimal number of '{num_str}' : ", octal_no)
+    return octal_no, None
+
+
 if __name__ == "__main__":
+    '''
     number = int(input("Enter the decimal number : "))
     decimal_to_binary(number)
 
@@ -220,7 +387,29 @@ if __name__ == "__main__":
     number = input("Enter the binary number : ")
     binary_to_octal(number)
 
+    number = input("Enter the octal number : ")
+    octal_to_binary(number)
+    
+
+    number = input("Enter the octal number : ")
+    octal_to_hexadecimal(number)
+
     print('\n')
     number = input("Enter the binary number : ")
     binary_to_hexadecimal(number)
+
+    number = input("Enter the octal number : ")
+    octal_to_decimal(number)
+
+    number = input("Enter the hexadecimal number : ")
+    hexadecimal_to_decimal(number)
+    '''
+
+    number = input("Enter the hexadecimal number : ")
+    hexadecimal_to_binary(number)
+
+    number = input("Enter the hexadecimal number : ")
+    hexadecimal_to_octal(number)
+
+
 

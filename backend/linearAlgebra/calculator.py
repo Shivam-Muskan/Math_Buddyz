@@ -26,6 +26,9 @@ def print_matrix(mat):
 
 
 def is_upper_triangular(mat):
+    if not is_square(mat):
+        return False
+
     for i in range(1, len(mat)):
         for j in range(i):
             if mat[i][j] != 0:
@@ -34,6 +37,9 @@ def is_upper_triangular(mat):
 
 
 def is_lower_triangular(mat):
+    if not is_square(mat):
+        return False
+
     for i in range(len(mat)):
         for j in range(i + 1, len(mat)):
             if mat[i][j] != 0:
@@ -48,6 +54,9 @@ def is_square(mat):
 
 
 def is_diagonal(mat):
+    if not is_square(mat):
+        return False
+
     for i in range(len(mat)):
         for j in range(len(mat)):
             if i != j and mat[i][j] != 0 :
@@ -56,6 +65,9 @@ def is_diagonal(mat):
 
 
 def is_scaler(mat):
+    if not is_square(mat):
+        return False
+
     for i in range(len(mat)):
         for j in range(len(mat)):
             if i != j and mat[i][j] != 0 :
@@ -69,6 +81,9 @@ def is_scaler(mat):
 
 
 def is_identity(mat):
+    if not is_square(mat):
+        return False
+
     for i in range(len(mat)):
         for j in range(len(mat)):
             if i != j and mat[i][j] != 0:
@@ -91,28 +106,11 @@ def is_null(mat):
 
 
 def matrix_type(mat):
-    if is_null(mat):
-        return "This is a Null Matrix."
+    dic = {'Null Matrix': is_null(mat), 'Square Matrix': is_square(mat), 'Identity Matrix': is_identity(mat),
+           'Scaler Matrix': is_scaler(mat), 'Diagonal Matrix': is_diagonal(mat),
+           'Lower Triangular Matrix': is_lower_triangular(mat), 'Upper Triangular Matrix': is_upper_triangular(mat)}
 
-    if is_identity(mat):
-        return "This is an Identity Matrix."
-
-    if is_scaler(mat):
-        return "This is a Scaler Matrix."
-
-    if is_diagonal(mat):
-        return "This is a Diagonal Matrix."
-
-    if is_lower_triangular(mat):
-        return "This is a Lower Triangular Matrix."
-
-    if is_upper_triangular(mat):
-        return "This is a Upper Triangular Matrix."
-
-    if is_square(mat):
-        return "This is a square matrix."
-
-    return "This is neither Upper Triangular nor Lower Triangular and even not a Diagonal Matrix."
+    return dic
 
 
 if __name__ == '__main__':
