@@ -20,27 +20,8 @@
 				</a>
 			</div>
 
-			<div class="flex lg:hidden">
-				<button type="button" class="text-gray-900">
-					<svg
-						class="h-7 w-7"
-						xmlns="http://www.w3.org/2000/svg"
-						fill="none"
-						viewBox="0 0 24 24"
-						stroke="currentColor"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1.5"
-							d="M4 6h16M4 12h16M4 18h16"
-						/>
-					</svg>
-				</button>
-			</div>
-
 			<div
-				class="hidden lg:absolute lg:inset-y-0 lg:left-1/2 lg:flex lg:-translate-x-1/2 lg:items-center lg:justify-center lg:space-x-12"
+				class="hidden md:absolute lg:inset-y-0 lg:left-1/2 lg:flex lg:-translate-x-1/2 lg:items-center lg:justify-center lg:space-x-12"
 			>
 				<a
 					href="https://linkedin.com/in/muskan8940/"
@@ -64,13 +45,14 @@
 					data-sveltekit-preload-data="hover"
 					href="{PUBLIC_BASE_API}/docs"
 					target="_blank"
+					rel="noreferrer"
 					class=" font-pj rounded text-base font-medium text-gray-900 transition-all duration-200 hover:text-opacity-50 focus:outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2"
 				>
 					API Docs
 				</a>
 			</div>
 
-			<div class="hidden lg:flex lg:items-center lg:justify-center lg:space-x-10">
+			<div class="lg:flex lg:items-center lg:justify-center lg:space-x-10">
 				<a
 					href="https://github.com/Shivam-Muskan/Math_Buddyz"
 					target="_blank"

@@ -148,7 +148,7 @@ async def matrix_trace_api(MatrixDict: dict):
 async def matrix_power_n_api(MatrixDict: dict):
     """ matrix_trace
         MatrixDict: {
-            "matrix": [Nested Array]
+            "matrix": [Nested Array],
             "power": int
         }
         """
