@@ -94,9 +94,6 @@ def matrix_type(mat):
     if is_null(mat):
         return "This is a Null Matrix."
 
-    if is_square(mat):
-        return "This is a square matrix."
-
     if is_identity(mat):
         return "This is an Identity Matrix."
 
@@ -111,6 +108,9 @@ def matrix_type(mat):
 
     if is_upper_triangular(mat):
         return "This is a Upper Triangular Matrix."
+
+    if is_square(mat):
+        return "This is a square matrix."
 
     return "This is neither Upper Triangular nor Lower Triangular and even not a Diagonal Matrix."
 
