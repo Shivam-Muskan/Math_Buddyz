@@ -1101,7 +1101,9 @@
 							<div>
 								<h4 class="font-bold">Matrix Type</h4>
 								<div class="mt-1">
-									<p>{advancedCalculator[calculator].answer}</p>
+									{#each Object.keys(advancedCalculator[calculator].answer) as matrixType}
+										<p>{matrixType}: {advancedCalculator[calculator].answer[matrixType] ? 'Yes' : 'No'}</p>
+									{/each}
 								</div>
 							</div>
 						</div>
