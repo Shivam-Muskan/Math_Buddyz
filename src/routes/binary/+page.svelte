@@ -47,6 +47,8 @@
 	};
 
 	async function handleCalculations() {
+		selections.error = null;
+		selections.answerValue = null;
 		selections.disableCalc = true;
 		selections.previousInputValue = selections.inputValue;
 		let response;
@@ -81,7 +83,7 @@
 <Header heading="Binary Calculator" />
 
 <section id="binaryCalculator" class="py-5 px-2">
-	<div class="mx-auto grid max-w-7xl items-center justify-center justify-items-center space-y-4">
+	<div class="mx-auto grid max-w-7xl justify-items-center space-y-4">
 		<div class="form-control">
 			<label
 				class="input-group grid flex-wrap items-center justify-center justify-between space-y-2 md:flex md:space-y-0"
