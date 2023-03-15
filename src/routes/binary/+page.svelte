@@ -1,138 +1,193 @@
 <script>
 	import Header from '$lib/Components/Header.svelte';
-	import API from "$lib/utils/api";
-	import toast from "svelte-french-toast";
+	import API from '$lib/utils/api';
+	import toast from 'svelte-french-toast';
+	import { fade } from 'svelte/transition';
 
-	const allBinaryCalc = {
-		binary_to_decimal: {
-			name: 'Binary to Decimal',
-            inputValue: '0',
-            answerValue: null,
-            disabled: false,
-            description: ''
-        },
-		binary_to_octal: {
-			name: 'Binary to Octal',
-			inputValue: 0,
-			answerValue: null,
+	const CNSCalculator = {
+		binary: {
 			disabled: false,
-			description: ''
+			name: 'Binary Number'
 		},
-		binary_to_hexadecimal: {
-			name: 'Binary to Octal',
-			inputValue: 0,
-			answerValue: null,
+		decimal: {
 			disabled: false,
-			description: ''
+			name: 'Decimal Number'
 		},
-		decimal_to_binary: {
-			name: 'Decimal to Binary',
-			inputValue: 0,
-			answerValue: null,
-			disabled: false,
-			description: ''
+		octal: {
+			disabled: true,
+			name: 'Octal Number'
 		},
-		decimal_to_octal: {
-			name: 'Decimal to Octal',
-			inputValue: 0,
-			answerValue: null,
-			disabled: false,
-			description: ''
-		},
-		decimal_to_hexadecimal: {
-			name: 'Decimal to Octal',
-			inputValue: 0,
-			answerValue: null,
-			disabled: false,
-			description: ''
-		},
-    }
+		hexadecimal: {
+			disabled: true,
+			name: 'Hexadecimal Number'
+		}
+	};
 
-	async function handleCalculations(calculator) {
-		allBinaryCalc[calculator].disabled = true;
+	const allKeysCalc = Object.keys(CNSCalculator);
+	const randomKey = (excludeKey) => {
+		let randomIndex;
+		do {
+			randomIndex = Math.floor(Math.random() * allKeysCalc.length);
+		} while (allKeysCalc[randomIndex] === excludeKey);
+		return allKeysCalc[randomIndex];
+	};
+
+	const selections = {
+		inputValue: 0,
+		previousInputValue: null,
+		answerValue: null,
+		error: null,
+		disableCalc: false,
+		from: 'binary',
+		to: 'decimal'
+	};
+	const openDropDown = {
+		from: false,
+		to: false
+	};
+
+	async function handleCalculations() {
+		selections.disableCalc = true;
+		selections.previousInputValue = selections.inputValue;
 		let response;
 		try {
-            response = await API.post(`/${calculator}/?num=${allBinaryCalc[calculator].inputValue}`, {})
+			response = await API.post(
+				`/${selections['from']}_to_${selections['to']}/?num=${selections.previousInputValue}`,
+				{}
+			);
 		} catch (e) {
-			allBinaryCalc[calculator].disabled = false;
-			toast.error(`Unable to complete your request for ${allBinaryCalc[calculator].name}`)
-            return;
+			selections.disableCalc = false;
+			toast.error(
+				`Unable to complete your request for conversion ${
+					CNSCalculator[selections['from']].name
+				} to ${CNSCalculator[selections['to']].name}`
+			);
+			return;
 		}
 		if (response.error) {
-			allBinaryCalc[calculator].disabled = false;
-			allBinaryCalc[calculator].answerValue = null
-            toast.error(response.message);
-            return
+			selections.disableCalc = false;
+			selections.answerValue = null;
+			selections.error = response.message;
+			toast.error(response.message);
+			return;
 		}
-		console.log(response);
-		allBinaryCalc[calculator].answerValue = response.result
-		allBinaryCalc[calculator].disabled = false;
-		toast.success(`Now you can see answer on screen.`)
+		selections.answerValue = response.result;
+		selections.disableCalc = false;
+		toast.success(`Now you can see answer on screen.`);
 		return;
 	}
 </script>
 
 <Header heading="Binary Calculator" />
 
-<section id="binaryCalculator" class="py-5">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div
-                class="mx-auto mt-12 grid max-w-fit grid-cols-1 justify-between justify-items-start gap-y-12 gap-x-8 sm:mt-16 md:grid-cols-4"
-        >
-            {#each Object.keys(allBinaryCalc) as calculator}
-                <div class="mx-auto">
-                    <div>
-                        <label for={calculator} class="text-sm font-medium capitalize text-gray-900"
-                        >{allBinaryCalc[calculator].name}</label
-                        >
-                        <div class="relative">
-                            <input
-                                    type="number"
-                                    id={calculator}
-                                    bind:value={allBinaryCalc[calculator].inputValue}
-                                    class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 mr-32 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                                    placeholder={allBinaryCalc[calculator].description}
-                                    required
-                            />
-                            <button
-                                    type="submit"
-                                    on:click={handleCalculations(calculator)}
-                                    disabled={allBinaryCalc[calculator].disabled}
-                                    class="absolute right-2.5 bottom-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
-                            >Calculate</button
-                            >
-                        </div>
-                        {#if allBinaryCalc[calculator].error}
-                            <p class="mt-1 text-sm font-medium text-red-500">
-                                {allBinaryCalc[calculator].error}
-                            </p>
-                        {/if}
-                        {#if allBinaryCalc[calculator].answerValue !== null}
-                            <div class="mt-4 flex rounded-md bg-indigo-50 p-4 text-sm text-indigo-500">
-                                <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                        class="mr-3 h-5 w-5 flex-shrink-0"
-                                >
-                                    <path
-                                            fill-rule="evenodd"
-                                            d="M19 10.5a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zM8.25 9.75A.75.75 0 019 9h.253a1.75 1.75 0 011.709 2.13l-.46 2.066a.25.25 0 00.245.304H11a.75.75 0 010 1.5h-.253a1.75 1.75 0 01-1.709-2.13l.46-2.066a.25.25 0 00-.245-.304H9a.75.75 0 01-.75-.75zM10 7a1 1 0 100-2 1 1 0 000 2z"
-                                            clip-rule="evenodd"
-                                    />
-                                </svg>
-                                <div>
-                                    <h4 class="font-bold">{allBinaryCalc[calculator].name} of {allBinaryCalc[calculator].inputValue} is </h4>
-                                    <div class="mt-1">
-                                        <p>{allBinaryCalc[calculator].answerValue}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        {/if}
-                    </div>
-                </div>
-            {/each}
+<section id="binaryCalculator" class="py-5 px-2">
+	<div class="mx-auto grid max-w-7xl items-center justify-center justify-items-center space-y-4">
+		<div class="form-control">
+			<label
+				class="input-group grid flex-wrap items-center justify-center justify-between space-y-2 md:flex md:space-y-0"
+			>
+				<div class="dropdown">
+					<button tabindex="0" class="btn md:rounded-r-none"
+						>From: {CNSCalculator[selections['from']].name}</button
+					>
+					<ul
+						tabindex="0"
+						class="dropdown-content menu rounded-box mt-1 w-52 bg-gray-200 px-1.5 py-3 shadow"
+					>
+						{#each allKeysCalc as calc}
+							<button
+								disabled={selections.disableCalc}
+								class="rounded-box p-2 text-start {selections['from'] === calc
+									? 'bg-gray-400'
+									: ''}"
+								on:click={() => {
+									selections['from'] = calc;
+									if (selections['from'] === selections['to']) {
+										selections['to'] = randomKey(calc);
+									}
+								}}>{CNSCalculator[calc].name}</button
+							>
+						{/each}
+					</ul>
+				</div>
+				<input
+					bind:value={selections['inputValue']}
+					type="text"
+					placeholder="e.g. 10, 1001, 4A"
+					class="rounded-lg px-2 py-2 text-gray-100 md:input"
+				/>
+				<div class="dropdown dropdown-bottom dropdown-end">
+					<label tabindex="0" class="btn md:rounded-l-none"
+						>To: {CNSCalculator[selections['to']].name}</label
+					>
+					<ul
+						tabindex="0"
+						class="dropdown-content menu rounded-box mt-1 w-52 bg-gray-200 px-1.5 py-3 shadow"
+					>
+						{#each allKeysCalc as calc}
+							{#if calc !== selections['from']}
+								<button
+									disabled={selections.disableCalc}
+									class="rounded-box p-2 text-end {selections['to'] === calc ? 'bg-gray-400' : ''}"
+									on:click={() => {
+										selections['to'] = calc;
+									}}>{CNSCalculator[calc].name}</button
+								>
+							{/if}
+						{/each}
+					</ul>
+				</div>
+			</label>
+		</div>
+		<button
+			class="btn mt-4"
+			on:click={() => {
+				handleCalculations();
+			}}
+			>Convert {CNSCalculator[selections['from']].name} to {CNSCalculator[selections['to']]
+				.name}</button
+		>
+		{#if selections.answerValue !== null}
+			<div class="alert alert-success shadow-lg" transition:fade>
+				<div>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-6 w-6 flex-shrink-0 stroke-current"
+						fill="none"
+						viewBox="0 0 24 24"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+						/></svg
+					>
+					<span
+						>From {CNSCalculator[selections['from']].name} to {CNSCalculator[selections['to']].name}
+						of {selections.previousInputValue} is {selections.answerValue}
+					</span>
+				</div>
+			</div>
+		{/if}
 
-        </div>
-    </div>
+		{#if selections.error !== null}
+			<div class="alert alert-error shadow-lg" transition:fade>
+				<div>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-6 w-6 flex-shrink-0 stroke-current"
+						fill="none"
+						viewBox="0 0 24 24"
+						><path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+						/></svg
+					>
+					<span>{selections.error}</span>
+				</div>
+			</div>
+		{/if}
+	</div>
 </section>

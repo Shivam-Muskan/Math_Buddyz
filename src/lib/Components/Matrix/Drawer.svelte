@@ -40,7 +40,7 @@
 			role="presentation"
 		/>
 		<div
-			class="absolute {placement} top-0 h-full overflow-y-auto rounded rounded-tl-lg bg-white shadow-xl transition-all duration-500 ease-in-out pb-5 {maxScreenSize} {isOpen
+			class="absolute {placement} top-0 h-full overflow-y-auto rounded rounded-tl-lg bg-white pb-5 shadow-xl transition-all duration-500 ease-in-out {maxScreenSize} {isOpen
 				? 'w-screen'
 				: 'w-0'}"
 		>
