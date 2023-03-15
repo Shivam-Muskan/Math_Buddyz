@@ -28,7 +28,7 @@
 			disabled: false,
 			error: null,
 			answer: [],
-			url: 'matrix_addition',
+			url: 'matrix_addition/',
 			isMultipleMatrix: true,
 			isAnswerArray: true
 		},
@@ -39,7 +39,7 @@
 			disabled: false,
 			error: null,
 			answer: [],
-			url: 'matrix_multiplication',
+			url: 'matrix_multiplication/',
 			isMultipleMatrix: true,
 			isAnswerArray: true
 		},
@@ -50,7 +50,7 @@
 			disabled: false,
 			error: null,
 			answer: null,
-			url: 'matrix_type',
+			url: 'matrix_type/',
 			isMultipleMatrix: false,
 			isAnswerArray: false
 		}
@@ -1102,7 +1102,11 @@
 								<h4 class="font-bold">Matrix Type</h4>
 								<div class="mt-1">
 									{#each Object.keys(advancedCalculator[calculator].answer) as matrixType}
-										<p>{matrixType}: {advancedCalculator[calculator].answer[matrixType] ? 'Yes' : 'No'}</p>
+										<p>
+											{matrixType}: {advancedCalculator[calculator].answer[matrixType]
+												? 'Yes'
+												: 'No'}
+										</p>
 									{/each}
 								</div>
 							</div>
