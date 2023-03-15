@@ -26,7 +26,7 @@ def fib_series(n):
 
     series.append(0)
     series.append(1)
-    for n in range(3, n + 1):
+    for n in range(2, n + 1):
         num = n_th_fibonacci(n - 1) + n_th_fibonacci(n - 2)
         series.append(num)
     return series
