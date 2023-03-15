@@ -11,12 +11,12 @@ async def decimal_to_binary_api(num: int):
     """ decimal_to_binary
     :param num: int
     """
-    result = decimal_to_binary(num)
+    result, error = decimal_to_binary(num)
     if result is not None:
         return {
             "result": result
         }
-    return {"error": True, "message": "Invalid input."}
+    return {"error": True, "message": error}
 
 
 @router.post("/decimal_to_octal/")
@@ -24,12 +24,12 @@ async def decimal_to_octal_api(num: int):
     """ decimal_to_octal
     :param num: int
     """
-    result = decimal_to_octal(num)
+    result, error = decimal_to_octal(num)
     if result is not None:
         return {
             "result": result
         }
-    return {"error": True, "message": "Invalid input."}
+    return {"error": True, "message": error}
 
 
 @router.post("/decimal_to_hexadecimal/")
@@ -37,12 +37,12 @@ async def decimal_to_hexadecimal_api(num: int):
     """ decimal_to_hexadecimal
     :param num: int
     """
-    result = decimal_to_hexadecimal(num)
+    result, error = decimal_to_hexadecimal(num)
     if result is not None:
         return {
             "result": result
         }
-    return {"error": True, "message": "Invalid input."}
+    return {"error": True, "message": error}
 
 
 @router.post("/binary_to_decimal/")
