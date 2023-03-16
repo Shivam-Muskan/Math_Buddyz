@@ -46,7 +46,7 @@
 	<div class="mx-auto grid max-w-7xl grid-cols-1 justify-items-center space-y-4 md:grid-cols-3">
 		{#each nurmericalCalcs as calc}
 			<div class="card card-compact w-96 bg-base-100 shadow-xl">
-				<figure><img src={calc.image} alt="{calc.name} Image" /></figure>
+				<figure><img src={calc.image} alt="{calc.name} Image" class="shadow-lg" /></figure>
 				<div class="card-body text-gray-100">
 					<h2 class="card-title">{calc.name}</h2>
 					<p>{calc.description}</p>
