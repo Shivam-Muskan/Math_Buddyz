@@ -28,7 +28,7 @@ const get = (url: string, request: any) => apiRequest('get', url, request);
 
 const deleteRequest = (url: string, request: any) => apiRequest('delete', url, request);
 
-const post = (url: string, request: any) => apiRequest('post', url, request);
+const post = (url: any, request: any) => apiRequest('post', url, request);
 
 const put = (url: string, request: any) => apiRequest('put', url, request);
 

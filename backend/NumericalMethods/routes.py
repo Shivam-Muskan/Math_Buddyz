@@ -66,7 +66,7 @@ async def secant_api(p: str = Query("x**3-5*x-9", description="Enter the polynom
     result, message = secant(p, a, b, n)
     if result is not None:
         return {
-            "result": result,
+            "roots": result,
             "message": message
         }
 
