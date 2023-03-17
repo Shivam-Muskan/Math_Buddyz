@@ -377,7 +377,7 @@
 		matrixType.disabled = true;
 		const currentWorkingMatrices = matrixType.inputValue.split(',');
 		if (currentWorkingMatrices.length > 1) {
-			const message = `You have to provide only one matrices for ${advancedCalculator[calculatorKey].name}`
+			const message = `You have to provide only one matrices for ${matrixType.name}`;
 			toast.error( message );
 			matrixType.error = message as any;
 			matrixType.disabled = false;
