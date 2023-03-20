@@ -42,18 +42,19 @@
 			url: 'matrix_multiplication/',
 			isMultipleMatrix: true,
 			isAnswerArray: true
-		},
-		matrixType: {
-			name: 'Find Matrix Type (Valid for Single Matrix)',
-			description: 'Provide a matrix name to find type of a matrix e.g. scalar, square',
-			inputValue: '',
-			disabled: false,
-			error: null,
-			answer: null,
-			url: 'matrix_type/',
-			isMultipleMatrix: false,
-			isAnswerArray: false
 		}
+	};
+
+	const matrixType = {
+		name: 'Find Matrix Type (Valid for Single Matrix)',
+		description: 'Provide a matrix name to find type of a matrix e.g. scalar, square',
+		inputValue: '',
+		disabled: false,
+		error: null,
+		answer: null,
+		url: 'matrix_type/',
+		isMultipleMatrix: false,
+		isAnswerArray: false
 	};
 
 	let matrices: Record<string, unknown> = {
@@ -357,7 +358,7 @@
 		} catch (e) {
 			toast.error(`Unable to complete this request for ${advancedCalculator[calculatorKey].name}`);
 			advancedCalculator[calculatorKey].disabled = false;
-			advancedCalculator[calculatorKey].error = response.message;
+			advancedCalculator[calculatorKey].error = `Unable to complete this request for ${advancedCalculator[calculatorKey].name}`;
 		}
 		if (response.error) {
 			toast.error(response.message);
@@ -369,6 +370,42 @@
 		advancedCalculator[calculatorKey].disabled = false;
 		toast.success('Easier said then done. You got the answer');
 		advancedCalculator[calculatorKey].error = null;
+		return;
+	};
+
+	const findMatrixType = async () => {
+		matrixType.disabled = true;
+		const currentWorkingMatrices = matrixType.inputValue.split(',');
+		if (currentWorkingMatrices.length > 1) {
+			const message = `You have to provide only one matrices for ${matrixType.name}`;
+			toast.error( message );
+			matrixType.error = message as any;
+			matrixType.disabled = false;
+			return;
+		}
+		const matrixToBeCalculated = matrices[matrixType.inputValue].matrix;
+		let response;
+		try {
+			response = await API.post(matrixType.url, {
+				matrix: matrixToBeCalculated
+			});
+		} catch (e) {
+			const message = `Unable to complete this request for ${matrixType.name}`
+			toast.error(message);
+			matrixType.disabled = false;
+			matrixType.error = message as any;
+		}
+		if (response.error) {
+			toast.error(response.message);
+			matrixType.disabled = false;
+			matrixType.error = response.message;
+			return;
+		}
+		matrixType.answer = response.result;
+		matrixType.disabled = false;
+		toast.success('Easier said then done. You got the answer');
+		matrixType.error = null;
+		return;
 	};
 
 	let isOpen = false;
@@ -1115,6 +1152,67 @@
 				</div>
 			</div>
 		{/each}
+		<div class="mx-auto max-w-xl">
+			<div>
+				<label for={matrixType.name} class="text-sm font-medium capitalize text-gray-900"
+				>{matrixType.name}</label
+				>
+				<div class="relative">
+					<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+						{@html Icons["matrixType"]}
+					</div>
+					<input
+							type="text"
+							id={matrixType.name}
+							bind:value={matrixType.inputValue}
+							class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
+							placeholder={matrixType.description}
+							required
+					/>
+					<button
+							type="submit"
+							on:click={ async () => await findMatrixType()}
+							disabled={matrixType.disabled}
+							class="absolute right-2.5 bottom-2.5 rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300"
+					>Calculate</button
+					>
+				</div>
+				{#if matrixType.error}
+					<p class="mt-1 text-sm font-medium text-red-500">
+						{matrixType.error}
+					</p>
+				{/if}
+				{#if matrixType.answer !== null}
+					<div class="mt-4 flex rounded-md bg-indigo-50 p-4 text-sm text-indigo-500">
+						<svg
+								xmlns="http://www.w3.org/2000/svg"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+								class="mr-3 h-5 w-5 flex-shrink-0"
+						>
+							<path
+									fill-rule="evenodd"
+									d="M19 10.5a8.5 8.5 0 11-17 0 8.5 8.5 0 0117 0zM8.25 9.75A.75.75 0 019 9h.253a1.75 1.75 0 011.709 2.13l-.46 2.066a.25.25 0 00.245.304H11a.75.75 0 010 1.5h-.253a1.75 1.75 0 01-1.709-2.13l.46-2.066a.25.25 0 00-.245-.304H9a.75.75 0 01-.75-.75zM10 7a1 1 0 100-2 1 1 0 000 2z"
+									clip-rule="evenodd"
+							/>
+						</svg>
+						<div>
+							<h4 class="font-bold">Matrix Type</h4>
+							<div class="mt-1">
+								{#each Object.keys(matrixType.answer) as matrix_type_name}
+									<p>
+										{matrix_type_name}: {matrixType.answer[matrix_type_name]
+											? 'Yes'
+											: 'No'}
+									</p>
+								{/each}
+							</div>
+						</div>
+					</div>
+				{/if}
+			</div>
+		</div>
+
 	</div>
 </Drawer>
 

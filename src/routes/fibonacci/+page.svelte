@@ -57,7 +57,7 @@
 		fibonacciCalc[key].disabled = true;
 		fibonacciCalc[key].previousInputValue = fibonacciCalc[key].inputValue;
 		if (fibonacciCalc[key].inputValue !== 0 && fibonacciCalc[key].fixCount) {
-			fibonacciCalc[key].previousInputValue = fibonacciCalc[key].inputValue - 1
+			fibonacciCalc[key].previousInputValue = fibonacciCalc[key].inputValue - 1;
 		}
 
 		let response;
@@ -90,9 +90,7 @@
 <Header heading="Fibonacci Calculator" />
 
 <section id="binaryCalculator" class="py-5 px-2">
-	<div
-		class="mx-auto grid max-w-7xl grid-cols-1 justify-items-center space-y-4 md:grid-cols-2"
-	>
+	<div class="mx-auto grid max-w-7xl grid-cols-1 justify-items-center space-y-4 md:grid-cols-2">
 		{#each Object.keys(fibonacciCalc) as key}
 			<div class="form-control">
 				<label class="label">
@@ -113,19 +111,19 @@
 					>
 				</label>
 				{#if fibonacciCalc[key].answerValue !== null}
-					<div class="alert alert-success shadow-lg mt-2 max-w-sm" transition:fade>
+					<div class="alert alert-success mt-2 max-w-sm shadow-lg" transition:fade>
 						<div>
 							<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-6 w-6 flex-shrink-0 stroke-current"
-									fill="none"
-									viewBox="0 0 24 24"
-							><path
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 flex-shrink-0 stroke-current"
+								fill="none"
+								viewBox="0 0 24 24"
+								><path
 									stroke-linecap="round"
 									stroke-linejoin="round"
 									stroke-width="2"
 									d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-							/></svg
+								/></svg
 							>
 							<span>{fibonacciCalc[key].answerValue} </span>
 						</div>
@@ -133,19 +131,19 @@
 				{/if}
 
 				{#if fibonacciCalc[key].error !== null}
-					<div class="alert alert-error shadow-lg mt-2 max-w-sm" transition:fade>
+					<div class="alert alert-error mt-2 max-w-sm shadow-lg" transition:fade>
 						<div>
 							<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-6 w-6 flex-shrink-0 stroke-current"
-									fill="none"
-									viewBox="0 0 24 24"
-							><path
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6 flex-shrink-0 stroke-current"
+								fill="none"
+								viewBox="0 0 24 24"
+								><path
 									stroke-linecap="round"
 									stroke-linejoin="round"
 									stroke-width="2"
 									d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-							/></svg
+								/></svg
 							>
 							<span>{fibonacciCalc[key].error}</span>
 						</div>
