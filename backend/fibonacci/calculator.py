@@ -11,23 +11,23 @@ def n_th_fibonacci(n):
 # Find Fibonacci Series of first 'n' numbers
 def fib_series(n):
     series = []
-    if n <= 0:
+    if n < 0:
         print("Incorrect input")
         return None
 
-    if n == 1:
+    if n == 0:
         series.append(0)
         return series
 
-    if n == 2:
+    if n == 1:
         series.append(0)
         series.append(1)
         return series
 
     series.append(0)
     series.append(1)
-    for n in range(3, n + 1):
-        num = n_th_fibonacci(n - 3) + n_th_fibonacci(n - 2)
+    for i in range(2, n+1):
+        num = n_th_fibonacci(i)
         series.append(num)
     return series
 
