@@ -10,16 +10,13 @@ router = APIRouter()
 async def bisection_api(p: str = Query(default="x**3-5*x-9", description="Enter the polynomial in x"),
                         a: float = Query(default=2, description="Enter the lower limit of the interval"),
                         b: float = Query(default=3, description="Enter the upper limit of the interval"),
-                        n: int = Query(default=0, description="Enter the number of iterations"),
-                        err: float | None = Query(default=None, description="Enter the tolerance error to find the "
-                                                                            "minimum no of iterations required.")):
+                        n: int = Query(default=0, description="Enter the number of iterations")):
     p = parse_expr(p)
-    result, total, message = bisection(p, a, b, n, err)
+    result, message = bisection(p, a, b, n)
 
     if result is not None:
         return {
             "roots": result,
-            "error_iterations": total,
             "message": message
         }
 
