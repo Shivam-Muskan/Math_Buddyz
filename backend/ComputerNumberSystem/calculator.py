@@ -3,6 +3,10 @@ def decimal_to_binary(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
+    for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
     if not num_str.isnumeric():
         print("Not a decimal number.")
         return None, "Not a decimal number."
@@ -38,6 +42,10 @@ def decimal_to_octal(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
+    for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
     if not num_str.isnumeric():
         print("Not a decimal number.")
         return None, "Not a decimal number."
@@ -72,6 +80,10 @@ def decimal_to_hexadecimal(num_str):
     if num_str[0] == '-':
         print("Not a positive value.")
         return None, "Not a positive value."
+
+    for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
 
     if not num_str.isnumeric():
         print("Not a decimal number.")
@@ -118,8 +130,11 @@ def binary_to_decimal(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
-    possibilities = ['0', '1']
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
+        possibilities = ['0', '1']
         if num_str[i] not in possibilities:
             print("Not a binary number.")
             return None, "Not a binary number."
@@ -139,8 +154,11 @@ def binary_to_octal(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
-    possibilities = ['0', '1']
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
+        possibilities = ['0', '1']
         if num_str[i] not in possibilities:
             print("Not a binary number.")
             return None, "Not a binary number."
@@ -177,8 +195,11 @@ def binary_to_hexadecimal(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
-    possibilities = ['0', '1']
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
+        possibilities = ['0', '1']
         if num_str[i] not in possibilities:
             print("Not a binary number.")
             return None, "Not a binary number."
@@ -223,8 +244,11 @@ def octal_to_decimal(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
-    possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
+        possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
         if num_str[i] not in possibilities:
             print("Not an octal number.")
             return None, "Not an octal number."
@@ -244,8 +268,11 @@ def octal_to_binary(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
-    possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
+        possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
         if num_str[i] not in possibilities:
             print("Not an octal number.")
             return None, "Not an octal number."
@@ -277,8 +304,11 @@ def octal_to_hexadecimal(num_str):
         print("Not a positive value.")
         return None, "Not a positive value."
 
-    possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
+        possibilities = ['0', '1', '2', '3', '4', '5', '6', '7']
         if num_str[i] not in possibilities:
             print("Not an octal number.")
             return None, "Not an octal number."
@@ -297,6 +327,9 @@ def hexadecimal_to_decimal(num_str):
         return None, "Not a positive value."
 
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
         possibilities = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
         if num_str[i] not in possibilities:
             print("Not a hexadecimal number.")
@@ -337,6 +370,9 @@ def hexadecimal_to_binary(num_str):
         return None, "Not a positive value."
 
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
         possibilities = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
         if num_str[i] not in possibilities:
             print("Invalid input. Not a hexadecimal number.")
@@ -375,6 +411,9 @@ def hexadecimal_to_octal(num_str):
         return None, "Not a positive value."
 
     for i in range(len(num_str)):
+        if num_str[i] == '.':
+            return None, "We don't support floats."
+
         possibilities = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
         if num_str[i] not in possibilities:
             print("Invalid input. Not a hexadecimal number.")
