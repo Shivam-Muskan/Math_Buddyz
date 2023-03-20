@@ -47,7 +47,7 @@
 			error: null,
 			disabled: false,
 			returnInt: false,
-			fixCount: true
+			fixCount: false
 		}
 	};
 
