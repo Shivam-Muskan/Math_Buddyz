@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/decimal_to_binary/")
-async def decimal_to_binary_api(num: int):
+async def decimal_to_binary_api(num: str):
     """ decimal_to_binary
     :param num: int
     """
@@ -20,7 +20,7 @@ async def decimal_to_binary_api(num: int):
 
 
 @router.post("/decimal_to_octal/")
-async def decimal_to_octal_api(num: int):
+async def decimal_to_octal_api(num: str):
     """ decimal_to_octal
     :param num: int
     """
@@ -33,7 +33,7 @@ async def decimal_to_octal_api(num: int):
 
 
 @router.post("/decimal_to_hexadecimal/")
-async def decimal_to_hexadecimal_api(num: int):
+async def decimal_to_hexadecimal_api(num: str):
     """ decimal_to_hexadecimal
     :param num: int
     """
