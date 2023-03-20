@@ -14,7 +14,7 @@
 			error: null,
 			disabled: false,
 			returnInt: true,
-			fixCount: true
+			fixCount: false
 		},
 		calc_sum: {
 			name: 'Find sum of first n fibonacci numbers',
@@ -25,7 +25,7 @@
 			error: null,
 			disabled: false,
 			returnInt: true,
-			fixCount: true
+			fixCount: false
 		},
 		is_fib: {
 			name: 'Find if number is fibonacci',
