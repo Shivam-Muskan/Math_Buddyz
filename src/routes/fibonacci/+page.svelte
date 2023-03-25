@@ -94,17 +94,17 @@
 		{#each Object.keys(fibonacciCalc) as key}
 			<div class="form-control">
 				<label class="label">
-					<span class="label-text">{fibonacciCalc[key].name}</span>
+					<span class="label-text text-gray-500">{fibonacciCalc[key].name}</span>
 				</label>
 				<label class="input-group">
 					<input
 						bind:value={fibonacciCalc[key].inputValue}
 						type="number"
 						placeholder="0.01"
-						class="input-bordered input text-white"
+						class="input-bordered input bg-gray-50 border-gray-700"
 					/>
 					<button
-						class="btn"
+						class="btn text-gray-100 bg-indigo-600 hover:bg-indigo-500 border-none"
 						on:click={async () => {
 							await findWithIntReturn(key);
 						}}>Find</button
